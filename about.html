@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Grzegorz Bronka - about
+</title>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Grzegorz Bronka - personal website." />
+<meta name="author" content="Grzegorz Bronka">
+<meta name="keywords" content="grzegorz, greg, bronka, programmer, cyber, security, development" />
+<link type="text/css" href="css/googleFonts.css" rel="stylesheet">
+<link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/mainPageStyle.css" />
+<link type="text/css" href="css/hamburgers.min.css" rel="stylesheet">
+<!-- favicon stuff -->
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5">
+<link rel="canonical" href="https://gregb.pl" />
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<!-- scripts -->
+<script defer src="js/jquery-3.6.0.min.js"></script>
+<script defer src="js/bootstrap.bundle.min.js"></script>
+<script defer src="js/main.js"></script>
+<noscript>
+    <style>
+        .collapse {
+            display: block !important;
+        }
+
+        #hamburger {
+            display: none;
+        }
+
+
+        @media screen and (max-width: 575px) {
+            .main-container {
+                padding-top: 320px;
+            }
+
+            .console-container {
+                padding-top: 320px;
+            }
+        }
+    </style>
+</noscript>
+
+</head>
+
+<body>
+
+    <nav class="navbar fixed-top navbar-dark navbar-expand-sm" data-toggle="affix">
+    <a class="navbar-brand" href="index.html"><img src="images/logoWhiteSmall.png" width="51" height="38" alt="GB logo" /></a>
+    <button class="hamburger hamburger--spin navbar-toggler" data-toggle="collapse" data-target="#navbarsTarget"
+        aria-expanded="false" id="hamburger" aria-label="Toggle navigation" type="button">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <div id="navbarsTarget" class="collapse justify-content-center navbar-collapse text-center">
+        <ul class="navbar-nav">
+            <li class="nav-item changeLink ">
+                <a class="nav-link" href="index.html">Home</a>
+            </li>
+
+
+            <li class="nav-item changeLink ">
+                <a class="nav-link" href="galery.html">Galery</a>
+            </li>
+            <li class="nav-item changeLink active">
+                <!-- [~]$ whoami -->
+                <a class="nav-link" href="about.html">Whoami</a>
+            </li>
+            <li class="nav-item changeLink ">
+                <a class="nav-link" href="contact.html">Contact</a>
+            </li>
+            <li class="nav-item changeLink ">
+                <a class="nav-link" href="blog.html">Blog</a>
+            </li>
+            <li class="nav-item changeLink ">
+                <a class="nav-link" href="honours.html">Honours</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+        <div class="container main-container">
+            <div>
+                <h1>Grzegorz Bronka (Greg)</h1>
+                <hr />
+                <div class="justify">
+                    <p title="Introduction">
+                        I'm interested in all things technology, but my goal is to be an expert in cyber security.
+                        In particular I'm focused on web penetration testing, network security and reverse engineering.
+                    </p>
+
+                    <p>I graduated from Robert Gordon Univeristy with a first class honours degree in Cyber Security in
+                        2022.
+                        Since then I've been working as a software engineer - I came back to the same company I worked
+                        for during my year long placement in 2019.
+                    </p>
+
+                    <p>Apart from the university and work, I use sites like
+                        <a href="https://tryhackme.com/p/Troltrol32">TryHackMe</a>,
+                        <a href="https://overthewire.org/">OverTheWire</a> or
+                        <a href="https://www.vulnhub.com/">VulnHub</a> to learn more about security.
+                    </p>
+
+                    <div class="mt-4">
+                        <a href="https://tryhackme.com/p/Troltrol32"><img
+                                src="https://tryhackme-badges.s3.amazonaws.com/Troltrol32.png" alt="TryHackMe"></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <h3>About this website</h3>
+                <hr />
+                <div class="justify">
+                    <p>The website began as a university project during my first year - a one-page portfolio.
+                        I've kept changing it afterwards multiple times.
+                        Currently, this is a fourth complete rewrite. The design, not the implementation, was always the
+                        biggest challange.</p>
+                    <p> Now it runs on MEAN stack (without Angular). The front end is mostly designed and created using
+                        Bootstrap and a bit of Jquery. But to avoid hosting it on a server I'm just taking static
+                        snapshots of the website and publishing it to GitHub.
+                        That way I don't need to worry about updating the website, paying for the server etc.</p>
+                </div>
+            </div>
+        </div>
+
+        <footer class="text-center">
+    <div class="container">
+        <a href="https://github.com/Neoskiddie"><img width="20" src="images/github.png" alt="github icon"></a>
+        <a href="https://www.linkedin.com/in/grzegorz-bronka"><img width="20" src="images/linkedin.png" alt="github icon"></a>
+        <div class="row">
+            <div class="col-12">
+                <p>Copyright &#169; 2023 Grzegorz Bronka. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+</body>
+
+</html>

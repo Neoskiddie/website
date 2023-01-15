@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Grzegorz Bronka - post: Writeup - CAPTURE THE FLAG: KIDNAPPER CASE
+</title>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Grzegorz Bronka - personal website." />
+<meta name="author" content="Grzegorz Bronka">
+<meta name="keywords" content="grzegorz, greg, bronka, programmer, cyber, security, development" />
+<link type="text/css" href="../css/googleFonts.css" rel="stylesheet">
+<link type="text/css" href="../css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="../css/mainPageStyle.css" />
+<link type="text/css" href="../css/hamburgers.min.css" rel="stylesheet">
+<!-- favicon stuff -->
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="mask-icon" href="../safari-pinned-tab.svg" color="#5bbad5">
+<link rel="canonical" href="https://gregb.pl" />
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<!-- scripts -->
+<script defer src="../js/jquery-3.6.0.min.js"></script>
+<script defer src="../js/bootstrap.bundle.min.js"></script>
+<script defer src="../js/main.js"></script>
+<noscript>
+    <style>
+        .collapse {
+            display: block !important;
+        }
+
+        #hamburger {
+            display: none;
+        }
+
+
+        @media screen and (max-width: 575px) {
+            .main-container {
+                padding-top: 320px;
+            }
+
+            .console-container {
+                padding-top: 320px;
+            }
+        }
+    </style>
+</noscript>
+
+
+    <!-- specific style only for this page-->
+    <link rel="stylesheet" href="../css/github-markdown.min.css">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <script defer src="../js/highlight.min.js"></script>
+</head>
+
+<body>
+  <nav class="navbar fixed-top navbar-dark navbar-expand-sm" data-toggle="affix">
+    <a class="navbar-brand" href="../index.html"><img src="../images/logoWhiteSmall.png" width="51" height="38" alt="GB logo" /></a>
+    <button class="hamburger hamburger--spin navbar-toggler" data-toggle="collapse" data-target="#navbarsTarget"
+        aria-expanded="false" id="hamburger" aria-label="Toggle navigation" type="button">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <div id="navbarsTarget" class="collapse justify-content-center navbar-collapse text-center">
+        <ul class="navbar-nav">
+            <li class="nav-item changeLink ">
+                <a class="nav-link" href="../index.html">Home</a>
+            </li>
+
+
+            <li class="nav-item changeLink ">
+                <a class="nav-link" href="../galery.html">Galery</a>
+            </li>
+            <li class="nav-item changeLink ">
+                <!-- [~]$ whoami -->
+                <a class="nav-link" href="../about.html">Whoami</a>
+            </li>
+            <li class="nav-item changeLink ">
+                <a class="nav-link" href="../contact.html">Contact</a>
+            </li>
+            <li class="nav-item changeLink ">
+                <a class="nav-link" href="../blog.html">Blog</a>
+            </li>
+            <li class="nav-item changeLink ">
+                <a class="nav-link" href="../honours.html">Honours</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+      <div class="container main-container">
+        <div class="text-center">
+          <h2>
+            Writeup - CAPTURE THE FLAG: KIDNAPPER CASE
+          </h2>
+          <p class="text-center">
+            Sat Mar 12 2022
+          </p>
+          <hr />
+        </div>
+        <article class="markdown-body">
+          <p>
+            Belkasoft Capture The Flag
+          </p>
+          <hr />
+          <h2>Intro</h2>
+<p>This was my first Forensics CTF. Although I had one semester of forensics at Uni it’s not the topic I’m most familiar with. Thus, I thought participating in this CTF could improve my skills in this aspect.</p>
+<p>Quite unexpectedly for me, the challenge turned out to be Linux image forensics. I was expecting a Windows system image and even repeated some methodology for windows forensics, such as what to search for in Registry. However, I’m actually more familiar with Linux, so it wasn’t a big problem, just a surprise.</p>
+<h2>Setup</h2>
+<p>To analyse the image I used a mixture of tools. I was running Autopsy and Belkasoft Evidence Center X (supplied by organisers) on Windows. But I also copied some of the files to Kali virtual machine for deeper analysis. Some of the terminal tools used were <code>exiftool</code>, <code>steghide</code> and <code>hexedit</code>. This was actually first time I used <code>hexedit</code>. Previously I was using combination of <code>vim</code> built in hexa edition or just <code>xxd</code> to see the content. But <code>hexedit</code> turned out to be more suitable for the task.</p>
+<h2>Challenges</h2>
+<h2>1 (100 points)</h2>
+<blockquote>
+<p>List all users of the laptop.
+Format: username1, username2, username 3:</p>
+</blockquote>
+<p>Answer: <code>ivan, stanley</code></p>
+<p>This could be found in either <code>/etc/passwd</code> or <code>/etc/shadow</code>. But both of this files have a lot of default users, so to make sure I didn’t miss any I’ve checked <code>/home</code> directory - it had two subdirectories named <code>ivan</code> and <code>stanley</code>.</p>
+<p><img src="../images/BlogPhotos/belkaHome.png" alt="Home directories"></p>
+<h2>2 (100 points)</h2>
+<blockquote>
+<p>What web application was used by the boy to earn his pocket money?</p>
+</blockquote>
+<p>Answer: <code>x-tux-0.web.app</code></p>
+<p>This one was quite easy to find in recovered browser files.
+<img src="../images/BlogPhotos/belkaURL.png" alt="URL of the website"></p>
+<h2>3 (100 points)</h2>
+<p>The files with partial addresses were quite easy to find in one of the user’s directories.</p>
+<p><img src="../images/BlogPhotos/belkaWallet1.png" alt="First BTC wallet">
+<img src="../images/BlogPhotos/belkaWallet2.png" alt="Second wallet"></p>
+<p>This was the last challenge I’ve solved.
+At first, I tried the incomplete address as the flag - it seemed to me that it was missing some characters just to make it invalid BTC address.</p>
+<p>The funny thing here is that I’ve found a complete address for the more difficult task before I found this one.
+It was so simple and yet so difficult.</p>
+<p>For some reason, I thought all data needed for this CTF was only available within the image. But the solution for this task was actually the link from the previous task - the website was working and the wallet address could be found there.</p>
+<p><img src="../images/BlogPhotos/belkaAddress1.png" alt="Complete BTC address"></p>
+<h2>4 (500 points)</h2>
+<blockquote>
+<p>On which date does the kid’s database show the most sales for “Acapulco Gold”?</p>
+</blockquote>
+<p>Answer: <code>2021-05-12</code></p>
+<p>Firstly there is an email from Tux asking for “monthly sell db”.
+<img src="../images/BlogPhotos/tuxEmail.png" alt="Tux email"></p>
+<p>The email also mentioned an attachment with a password list. I’ve saved the it for later.</p>
+<p>The DB file itself was located in <code>/home/stanley/.db</code> in one of the subdirectories.
+Also, another interesting file “mycon.zip” was located there.</p>
+<p><img src="../images/BlogPhotos/db.png" alt="DB"></p>
+<p>Looking through other files in “Stanely” directory I found a very interesting cache - the VMware cache of all drag and drop files. This turned out to be almost all files used in the challenge. Seems like something that was overlooked during the making of the challenge.</p>
+<p><img src="../images/BlogPhotos/vmwareCache.png" alt="Drag and drop cache"></p>
+<p>The database was encrypted. Usually for such tasksk I would use Hashcat, but I wanted to try Password Kit Forensic program that was provided by the ograniser.</p>
+<p>The password for the database was <code>vondutcemonaheem_gangsta78</code>
+It was found in the password list from the email.</p>
+<p><img src="../images/BlogPhotos/monthlyDB.png" alt="DB"></p>
+<p>To find the correct data I simply used grep on both files from the Zip, to filter on the “Acapulco Gold”:
+<img src="../images/BlogPhotos/dbContent.png" alt="Date of the biggest sale"></p>
+<h2>5 (750 points)</h2>
+<blockquote>
+<p>What was the other BTC wallet of the victim, which he used to hide his “under the counter” sales from his superior?</p>
+</blockquote>
+<p>Answer: <code>bc1q2kgdygjrszq2n0yrf2493pkkfjhxlh</code></p>
+<p>For me personally this one was easier then the challenge for 100 points. This address could be found in one of the invoices. There were several invoices in one folder. All of them were PDFs changed in some way, like wrong extension.</p>
+<p><img src="../images/BlogPhotos/invoices.png" alt="Listing of the hidden directory with the files"></p>
+<p>Analysing files didn’t reveal any information in metadata or in the rendered PDFs.
+However, two files did not open at all. <code>.Inv.sys</code> and <code>101.bin</code>.
+Upon inspecting the file in hexedit it could be seen that the beginning was zeroed.
+Fixing the file revealed the BTC address.</p>
+<p><img src="../images/BlogPhotos/invoices.png" alt="On the left - regular invoice, on the right - zeroed beginning">
+<img src="../images/BlogPhotos/btcWallet2.png" alt="The walled address in the invoice"></p>
+<p>I’ve also checked the file <code>101.bin</code> in the hexedit but it looked like there were more changes to it. I expected that maybe all bits were shifted. However, I left it and moved to another challenge.</p>
+<p>What I learned after the challenge was that the endianness was swapped for every 2 bytes. An interesting fact to remember for future CTFs.</p>
+<h2>6. Notipass (750 points)</h2>
+<blockquote>
+<p>What is the password to the boy’s notes?</p>
+</blockquote>
+<p>Answer: <code>!mp0rt4nTNot3</code></p>
+<p>The password for this file could be found in file named <code>NOTHING_IMPORTANT_INFO.pdf</code>, which obviously was important:
+<img src="../images/BlogPhotos/nothingImportant.png" alt="Important file"></p>
+<p>It contained other file with encoded text:
+<img src="http://localhost:3000/images/BlogPhotos/hiddenFile.png/" alt="Hidden file"></p>
+<p>I used CyberChef to decoded the information as it can even detect the encoding.
+The text in file turned out to be base32 encoded:
+<img src="../images/BlogPhotos/base32.png" alt="Base32"></p>
+<p>Because at this point the text looked almost readable I tried rot13 and that revealed the passwords:
+<img src="../images/BlogPhotos/rot13.png" alt="Rot13"></p>
+<p>The file with notes could be easily found just by navigating the directory of Stanley user:
+<img src="../images/BlogPhotos/encryptedNotes.png" alt="File with encrypted notes">
+Autopsy was here very helpful as it detected the file was encrypted.</p>
+<h2>7. Specudio (1000 points)</h2>
+<blockquote>
+<p>What is the “secret pin” mentioned in the notes?</p>
+</blockquote>
+<p>Answer: <code>flag{1257}</code></p>
+<p>Although this task was given the highest number of points, for me personally it was one of the easiest. The name of the task gave away that it’s about audio spectrogram.</p>
+<p>Firstly, a pcapng file could be found in Music directory:
+<img src="../images/BlogPhotos/music.png" alt="Pcapng file in music directory">
+This was one of the first things I noticed during this challenge - why would pcapng file be in Music directory?</p>
+<p>I opened the file with Wireshark and noticed that I can export files from HTTP traffic. One of the files was named <code>vault_secret_code.wav</code> obviously pointing this is what the task was about.
+<img src="../images/BlogPhotos/wiresharkExport.png" alt="Wireshark export"></p>
+<p>I had a play with spectrogram in the past so it was as simple as opening the file in Audacity and chaning view to spectrogram:
+<img src="../images/BlogPhotos/audacity1.png" alt="Selecting the spectrogram view in Audacity">
+<img src="../images/BlogPhotos/audacity2.png" alt="Spectrogram view"></p>
+<h2>8. Ultimatum (100 points)</h2>
+<blockquote>
+<p>When did the boy receive a threat?
+Flag format: Epoch time</p>
+</blockquote>
+<p>Answer: <code>1637948267</code></p>
+<p>In the decrypted notes from task 6 there was a timestamp <code>1637948867</code>. Also it was mentioned the note was written 10 minutes since receiving the threat.
+The epoch time meant that the minutes needed to be converted to seconds and substracted from the timestamp. <code>1637948867 - 600</code> gives the answer.</p>
+<p>1637948867 minus 600 seconds (10 min) is 1637948257</p>
+<h2>9. Whois (200 points)</h2>
+<blockquote>
+<p>Who was the kidnapper?
+Format: Nickname, email</p>
+</blockquote>
+<p>Answer: <code>0xTux, wixelig493@keagenan.com</code></p>
+<h2>10. Pride (250 points)</h2>
+<p>Last task was sharing the CTF on social media. Personally not a fan of that one - forcing participants to share it.</p>
+<h2>Certificate</h2>
+<p><img src="../images/BlogPhotos/cert.png" alt="Cettificate"></p>
+
+        </article>
+      </div>
+    <footer class="text-center">
+    <div class="container">
+        <a href="https://github.com/Neoskiddie"><img width="20" src="../images/github.png" alt="github icon"></a>
+        <a href="https://www.linkedin.com/in/grzegorz-bronka"><img width="20" src="../images/linkedin.png" alt="github icon"></a>
+        <div class="row">
+            <div class="col-12">
+                <p>Copyright &#169; 2023 Grzegorz Bronka. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+
+</html>

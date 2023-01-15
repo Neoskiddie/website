@@ -1,0 +1,387 @@
+@charset "utf-8";
+:root {
+    --primary-bg-color: #06090f;
+    --secondary-bg-color: #161b22;
+    --text-color: #e8e6e3;
+    --accent-color: #d64c4c;
+}
+
+/* GENERAL STYLES*/
+
+* {
+    scrollbar-color: #202324 #454a4d;
+}
+
+a {
+    color: var(--text-color);
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #007bff;
+    text-decoration: none;
+}
+
+html {
+    /* footer position */
+    position: relative;
+    min-height: 100%;
+}
+
+/*
+old css that was used for photo or something on about page
+.profileHeader h2 {
+    font-size: 1em;
+}
+*/
+
+hr {
+    background-color: rgb(51, 55, 57);
+    height: 2px;
+}
+
+p {
+    line-height: 1.8;
+}
+
+body {
+    font-size: 100%;
+    /* Margin bottom by footer height */
+    margin-bottom: 40px;
+    background-color: var(--primary-bg-color);
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Roboto Mono', monospace;
+}
+
+h2 {
+    font-weight: 700;
+    color: var(--accent-color);
+    font-size: 3em;
+    text-transform: uppercase;
+}
+
+footer {
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9em;
+    line-height: 40px;
+    background-color: var(--secondary-bg-color);
+    /* font-weight: 700; */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+footer div a:link {
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+}
+
+footer div a:visited {
+    color: white;
+}
+
+footer div a:hover {
+    color: var(--accent-color);
+}
+
+/* honey pot form */
+
+form #website, #email {
+    display: none;
+}
+
+.form-control {
+    color: rgb(181, 174, 164);
+    background-color: rgb(19, 21, 22);
+    border-color: rgb(60, 65, 68);
+}
+
+/* UTILITIES */
+
+.accent {
+    color: var(--accent-color);
+}
+
+.accent-bg {
+    background-color: var(--accent-color);
+}
+
+.white-text {
+    color: var(--text-color);
+}
+
+.justify {
+    text-align: justify;
+}
+
+.main-container {
+    padding: 100px 20px;
+    padding-bottom: 100px;
+}
+
+/* -------------------------------------------------- */
+
+/* navbar */
+.navbar {
+    text-transform: uppercase;
+    background-color: var(--secondary-bg-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transition: top 0.5s;
+    top: -1px;
+    /* to fix issu on Android */
+}
+
+.nav-link {
+    text-decoration: none;
+}
+/* -------------------------------------------------- */
+
+.indent {
+    text-indent: 2em;
+}
+
+/* -------------------------------------------------- */
+
+/* console */
+
+.hidden {
+    opacity: 0;
+}
+
+.console-container {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 50px;
+    text-align: left;
+    padding-top: 100px;
+    display: block;
+    position: absolute;
+    color: white;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.console-underscore {
+    display: inline-block;
+    position: relative;
+    top: -0.14em;
+    left: -15px;
+}
+
+@media screen and (max-width: 1204px) {
+    .console-container {
+        font-size: 30px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .console-container {
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 300px) {
+    .console-container {
+        font-size: 10px;
+    }
+}
+
+/* -------------------------------------------------- */
+
+/* images galery */
+
+.gallery {
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-count: 3;
+    -webkit-column-width: 33%;
+    -moz-column-width: 33%;
+    column-width: 33%;
+}
+
+@media (max-width: 450px) {
+    .gallery {
+        -webkit-column-count: 1;
+        -moz-column-count: 1;
+        column-count: 1;
+        -webkit-column-width: 100%;
+        -moz-column-width: 100%;
+        column-width: 100%;
+    }
+}
+
+.clickable-image {
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.clickable-image:hover {
+    opacity: 0.7;
+}
+
+/* for hiding images when JS is disabled */
+.hidden {
+  display: none;
+}
+
+/* -------------------------------------------------- */
+
+/* image modal (in galery)*/
+
+#imageModal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.9);
+    /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 1000px;
+}
+
+/* Caption of Modal Image */
+
+#caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+
+/* Add Animation */
+
+.modal-content, #caption {
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {
+        -webkit-transform: scale(0)
+    }
+    to {
+        -webkit-transform: scale(1)
+    }
+}
+
+@keyframes zoom {
+    from {
+        transform: scale(0)
+    }
+    to {
+        transform: scale(1)
+    }
+}
+
+/* The Close Button */
+
+.pseudo-close-btn {
+    position: absolute;
+    top: 55px;
+    right: 135px;
+    color: red;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.pseudo-close-btn:hover, .pseudo-close-btn:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+
+@media only screen and (max-width: 700px) {
+    .modal-content {
+        width: 100%;
+    }
+}
+
+/* -------------------------------------------------- */
+
+/* cookie botstrap modal */
+
+.modal-header {
+    border-bottom-color: rgb(53, 58, 60);
+}
+
+.modal-footer {
+    border-top-color: rgb(53, 58, 60);
+}
+
+.modal-content {
+    background-color: rgb(24, 26, 27);
+    border-color: rgba(140, 130, 115, 0.2);
+    outline-color: currentcolor;
+}
+
+.close {
+    color: red;
+    text-shadow: rgb(24, 26, 27) 0px 1px 0px;
+}
+
+/* -------------------------------------------------- */
+
+/* blog */
+
+.postList {
+    list-style-type: none;
+    font-size: 2rem;
+}
+
+
+/* markdown - for post */
+
+.markdown-body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+    color: var(--text-color) !important;
+    /* overriding the color here to keep the github-markdown as it is */
+}
+
+@media (max-width: 767px) {
+    .markdown-body {
+        padding: 15px;
+    }
+}
+
+/* -------------------------------------------------- */

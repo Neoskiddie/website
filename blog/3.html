@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Grzegorz Bronka - post: Hackathon project
+</title>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Grzegorz Bronka - personal website." />
+<meta name="author" content="Grzegorz Bronka">
+<meta name="keywords" content="grzegorz, greg, bronka, programmer, cyber, security, development" />
+<link type="text/css" href="../css/googleFonts.css" rel="stylesheet">
+<link type="text/css" href="../css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="../css/mainPageStyle.css" />
+<link type="text/css" href="../css/hamburgers.min.css" rel="stylesheet">
+<!-- favicon stuff -->
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="mask-icon" href="../safari-pinned-tab.svg" color="#5bbad5">
+<link rel="canonical" href="https://gregb.pl" />
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<!-- scripts -->
+<script defer src="../js/jquery-3.6.0.min.js"></script>
+<script defer src="../js/bootstrap.bundle.min.js"></script>
+<script defer src="../js/main.js"></script>
+<noscript>
+    <style>
+        .collapse {
+            display: block !important;
+        }
+
+        #hamburger {
+            display: none;
+        }
+
+
+        @media screen and (max-width: 575px) {
+            .main-container {
+                padding-top: 320px;
+            }
+
+            .console-container {
+                padding-top: 320px;
+            }
+        }
+    </style>
+</noscript>
+
+
+    <!-- specific style only for this page-->
+    <link rel="stylesheet" href="../css/github-markdown.min.css">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <script defer src="../js/highlight.min.js"></script>
+</head>
+
+<body>
+  <nav class="navbar fixed-top navbar-dark navbar-expand-sm" data-toggle="affix">
+    <a class="navbar-brand" href="../index.html"><img src="../images/logoWhiteSmall.png" width="51" height="38" alt="GB logo" /></a>
+    <button class="hamburger hamburger--spin navbar-toggler" data-toggle="collapse" data-target="#navbarsTarget"
+        aria-expanded="false" id="hamburger" aria-label="Toggle navigation" type="button">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <div id="navbarsTarget" class="collapse justify-content-center navbar-collapse text-center">
+        <ul class="navbar-nav">
+            <li class="nav-item changeLink ">
+                <a class="nav-link" href="../index.html">Home</a>
+            </li>
+
+
+            <li class="nav-item changeLink ">
+                <a class="nav-link" href="../galery.html">Galery</a>
+            </li>
+            <li class="nav-item changeLink ">
+                <!-- [~]$ whoami -->
+                <a class="nav-link" href="../about.html">Whoami</a>
+            </li>
+            <li class="nav-item changeLink ">
+                <a class="nav-link" href="../contact.html">Contact</a>
+            </li>
+            <li class="nav-item changeLink ">
+                <a class="nav-link" href="../blog.html">Blog</a>
+            </li>
+            <li class="nav-item changeLink ">
+                <a class="nav-link" href="../honours.html">Honours</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+      <div class="container main-container">
+        <div class="text-center">
+          <h2>
+            Hackathon project
+          </h2>
+          <p class="text-center">
+            Sun Dec 02 2018
+          </p>
+          <hr />
+        </div>
+        <article class="markdown-body">
+          <p>
+            My first hackathon project
+          </p>
+          <hr />
+          <p>This was the first hackathon that I participated in - small local hackathon that lasted only around 12 hours in total.</p>
+<p>During my first year at university most of my time I was programming, but I’ve never had any experience with robotics.
+So, even such a simple robot as <a href="https://www.lego.com/en-us/product/lego-mindstorms-ev3-31313">Lego EV3</a> seemed an interesting project.</p>
+<p>Lego provides software and apps to control their robots, but I wanted to make something a bit different.</p>
+<p>My idea was to control the robot through my laptop keyboard and make it react to obstacles (ultrasonic sensor) by playing a custom sound.</p>
+<p>The robot was operated through SSH connection and the program was run from there. Surprisingly this simplistic way of controlling the robot was more responsive then dedicated Lego app at the time.</p>
+<p>The simple code I used:</p>
+<pre class="hljs bg-dark text-white"><code><span class="hljs-keyword">from</span> ev3dev.ev3 <span class="hljs-keyword">import</span> * <span class="hljs-comment"># library for controling ev3</span>
+<span class="hljs-keyword">from</span> time <span class="hljs-keyword">import</span> sleep 
+<span class="hljs-keyword">import</span> sys, termios, tty, os <span class="hljs-comment"># keyboard listening</span>
+ 
+<span class="hljs-comment"># listening for keys</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getch</span>():</span>
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)
+    <span class="hljs-keyword">try</span>:
+        tty.setraw(sys.stdin.fileno())
+        ch = sys.stdin.read(<span class="hljs-number">1</span>)
+ 
+    <span class="hljs-keyword">finally</span>:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    <span class="hljs-keyword">return</span> ch
+ 
+
+<span class="hljs-comment"># initialising ultrasonic sensor</span>
+us = UltrasonicSensor() 
+<span class="hljs-comment"># Put the sensor into distance mode</span>
+us.mode=<span class="hljs-string">&#x27;US-DIST-CM&#x27;</span>
+units = us.units
+
+<span class="hljs-comment"># motors initialisation</span>
+m = LargeMotor(<span class="hljs-string">&#x27;outB&#x27;</span>)
+a = LargeMotor(<span class="hljs-string">&#x27;outC&#x27;</span>)
+control=<span class="hljs-string">&#x27;&#x27;</span>
+
+Sound.play(<span class="hljs-string">&#x27;/home/robot/Beginning.wav&#x27;</span>).wait() <span class="hljs-comment"># starting sound</span>
+
+print(<span class="hljs-string">&#x27;Lets begin&#x27;</span>) <span class="hljs-comment"># starting script takes few seconds. This just indicates when it is ready.</span>
+
+<span class="hljs-keyword">while</span> control != <span class="hljs-string">&#x27;q&#x27;</span>:
+    distance = us.value()/<span class="hljs-number">10</span>
+    char = getch()
+    <span class="hljs-keyword">if</span> char == <span class="hljs-string">&#x27;q&#x27;</span>:
+        exit(<span class="hljs-number">0</span>)
+    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;e&#x27;</span>:
+        Leds.set_color(Leds.LEFT, Leds.RED)
+        Leds.set_color(Leds.RIGHT, Leds.RED)
+        Sound.play(<span class="hljs-string">&#x27;/home/robot/Exterminate.wav&#x27;</span>).wait()
+        Leds.set_color(Leds.LEFT, Leds.YELLOW)
+        Leds.set_color(Leds.RIGHT, Leds.YELLOW)
+    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;m&#x27;</span>:
+        Sound.play(<span class="hljs-string">&#x27;/home/robot/MustSurvive.wav&#x27;</span>).wait()
+    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27; &#x27;</span> <span class="hljs-keyword">and</span> distance &lt; <span class="hljs-number">20</span>:
+        print(<span class="hljs-built_in">str</span>(distance) + <span class="hljs-string">&quot; &quot;</span> + units)
+        Sound.play(<span class="hljs-string">&#x27;/home/robot/Exterminate.wav&#x27;</span>).wait()
+    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;w&#x27;</span>:
+        a.run_timed(time_sp=<span class="hljs-number">500</span>, speed_sp=<span class="hljs-number">900</span>)
+        m.run_timed(time_sp=<span class="hljs-number">500</span>, speed_sp=<span class="hljs-number">910</span>)
+    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;s&#x27;</span>:
+        a.run_timed(time_sp=<span class="hljs-number">500</span>, speed_sp=-<span class="hljs-number">900</span>)
+        m.run_timed(time_sp=<span class="hljs-number">500</span>, speed_sp=-<span class="hljs-number">900</span>)
+    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;a&#x27;</span>:
+        a.run_timed(time_sp=<span class="hljs-number">140</span>, speed_sp=<span class="hljs-number">200</span>)
+        m.run_timed(time_sp=<span class="hljs-number">140</span>, speed_sp=-<span class="hljs-number">200</span>)
+    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;d&#x27;</span>:
+        a.run_timed(time_sp=<span class="hljs-number">140</span>, speed_sp=-<span class="hljs-number">200</span>)
+        m.run_timed(time_sp=<span class="hljs-number">140</span>, speed_sp=<span class="hljs-number">200</span>)
+</code></pre>
+<p><img src="../images/BlogPhotos/lego.jpg" alt="lego robot"></p>
+
+        </article>
+      </div>
+    <footer class="text-center">
+    <div class="container">
+        <a href="https://github.com/Neoskiddie"><img width="20" src="../images/github.png" alt="github icon"></a>
+        <a href="https://www.linkedin.com/in/grzegorz-bronka"><img width="20" src="../images/linkedin.png" alt="github icon"></a>
+        <div class="row">
+            <div class="col-12">
+                <p>Copyright &#169; 2023 Grzegorz Bronka. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+
+</html>
