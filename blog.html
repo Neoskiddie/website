@@ -13,7 +13,7 @@
 <link type="text/css" href="css/googleFonts.css" rel="stylesheet">
 <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="css/mainPageStyle.css" />
-<link type="text/css" href="css/hamburgers.min.css" rel="stylesheet">
+<link type="text/css" href="css/hamburgers.css" rel="stylesheet">
 <!-- favicon stuff -->
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -28,7 +28,7 @@
 <script defer src="js/bootstrap.bundle.min.js"></script>
 <script defer src="js/main.js"></script>
 <noscript>
-    <style>
+   <style>
         .collapse {
             display: block !important;
         }
@@ -47,7 +47,17 @@
                 padding-top: 320px;
             }
         }
+
+        #hidden {
+            display: none;
+            height: 100px;
+            background: red;
+        }
+        :checked + #hidden {
+            display: block;
+        }
     </style>
+
 </noscript>
 
 </head>

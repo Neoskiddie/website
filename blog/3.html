@@ -13,7 +13,7 @@
 <link type="text/css" href="../css/googleFonts.css" rel="stylesheet">
 <link type="text/css" href="../css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="../css/mainPageStyle.css" />
-<link type="text/css" href="../css/hamburgers.min.css" rel="stylesheet">
+<link type="text/css" href="../css/hamburgers.css" rel="stylesheet">
 <!-- favicon stuff -->
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
@@ -47,7 +47,17 @@
                 padding-top: 320px;
             }
         }
+
+        #hidden {
+            display: none;
+            height: 100px;
+            background: red;
+        }
+        :checked + #hidden {
+            display: block;
+        }
     </style>
+
 </noscript>
 
 
@@ -145,7 +155,7 @@ control=<span class="hljs-string">&#x27;&#x27;</span>
 
 Sound.play(<span class="hljs-string">&#x27;/home/robot/Beginning.wav&#x27;</span>).wait() <span class="hljs-comment"># starting sound</span>
 
-print(<span class="hljs-string">&#x27;Lets begin&#x27;</span>) <span class="hljs-comment"># starting script takes few seconds. This just indicates when it is ready.</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Lets begin&#x27;</span>) <span class="hljs-comment"># starting script takes few seconds. This just indicates when it is ready.</span>
 
 <span class="hljs-keyword">while</span> control != <span class="hljs-string">&#x27;q&#x27;</span>:
     distance = us.value()/<span class="hljs-number">10</span>
@@ -161,7 +171,7 @@ print(<span class="hljs-string">&#x27;Lets begin&#x27;</span>) <span class="hljs
     <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;m&#x27;</span>:
         Sound.play(<span class="hljs-string">&#x27;/home/robot/MustSurvive.wav&#x27;</span>).wait()
     <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27; &#x27;</span> <span class="hljs-keyword">and</span> distance &lt; <span class="hljs-number">20</span>:
-        print(<span class="hljs-built_in">str</span>(distance) + <span class="hljs-string">&quot; &quot;</span> + units)
+        <span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>(distance) + <span class="hljs-string">&quot; &quot;</span> + units)
         Sound.play(<span class="hljs-string">&#x27;/home/robot/Exterminate.wav&#x27;</span>).wait()
     <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;w&#x27;</span>:
         a.run_timed(time_sp=<span class="hljs-number">500</span>, speed_sp=<span class="hljs-number">900</span>)

@@ -313,7 +313,7 @@ form #website, #email {
     position: absolute;
     top: 55px;
     right: 135px;
-    color: red;
+    color: var(--accent-color);
     font-size: 40px;
     font-weight: bold;
     transition: 0.3s;
