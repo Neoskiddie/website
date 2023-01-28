@@ -1,4 +1,5 @@
 @charset "utf-8";
+
 :root {
     --primary-bg-color: #06090f;
     --secondary-bg-color: #161b22;
@@ -53,7 +54,12 @@ body {
     color: var(--text-color);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: 'Roboto Mono', monospace;
 }
 
@@ -87,18 +93,6 @@ footer div a:visited {
 
 footer div a:hover {
     color: var(--accent-color);
-}
-
-/* honey pot form */
-
-form #website, #email {
-    display: none;
-}
-
-.form-control {
-    color: rgb(181, 174, 164);
-    background-color: rgb(19, 21, 22);
-    border-color: rgb(60, 65, 68);
 }
 
 /* UTILITIES */
@@ -139,13 +133,6 @@ form #website, #email {
 .nav-link {
     text-decoration: none;
 }
-/* -------------------------------------------------- */
-
-.indent {
-    text-indent: 2em;
-}
-
-/* -------------------------------------------------- */
 
 /* console */
 
@@ -227,7 +214,7 @@ form #website, #email {
 
 /* for hiding images when JS is disabled */
 .hidden {
-  display: none;
+    display: none;
 }
 
 /* -------------------------------------------------- */
@@ -281,7 +268,8 @@ form #website, #email {
 
 /* Add Animation */
 
-.modal-content, #caption {
+.modal-content,
+#caption {
     -webkit-animation-name: zoom;
     -webkit-animation-duration: 0.6s;
     animation-name: zoom;
@@ -292,6 +280,7 @@ form #website, #email {
     from {
         -webkit-transform: scale(0)
     }
+
     to {
         -webkit-transform: scale(1)
     }
@@ -301,6 +290,7 @@ form #website, #email {
     from {
         transform: scale(0)
     }
+
     to {
         transform: scale(1)
     }
@@ -318,7 +308,8 @@ form #website, #email {
     transition: 0.3s;
 }
 
-.pseudo-close-btn:hover, .pseudo-close-btn:focus {
+.pseudo-close-btn:hover,
+.pseudo-close-btn:focus {
     color: #bbb;
     text-decoration: none;
     cursor: pointer;

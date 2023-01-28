@@ -28,7 +28,7 @@
 <script defer src="../js/bootstrap.bundle.min.js"></script>
 <script defer src="../js/main.js"></script>
 <noscript>
-    <style>
+   <style>
         .collapse {
             display: block !important;
         }
@@ -63,8 +63,6 @@
 
     <!-- specific style only for this page-->
     <link rel="stylesheet" href="../css/github-markdown.min.css">
-    <link rel="stylesheet" href="../css/highlight.min.css">
-    <script defer src="../js/highlight.min.js"></script>
 </head>
 
 <body>
@@ -76,7 +74,6 @@
             <span class="hamburger-inner"></span>
         </span>
     </button>
-
     <div id="navbarsTarget" class="collapse justify-content-center navbar-collapse text-center">
         <ul class="navbar-nav">
             <li class="nav-item changeLink ">
@@ -128,72 +125,72 @@
 <h2>Server</h2>
 <p>The switches used for the lights couldn’t control the brightness of the lights, so I decided it’ll be best to just turn all of them at once. I used two very simple scripts for that.</p>
 <p>All sockets on:</p>
-<pre class="hljs bg-dark text-white"><code><span class="hljs-keyword">import</span> RPi.GPIO <span class="hljs-keyword">as</span> GPIO <span class="hljs-comment"># the library to manage Rasbperry Pi pins</span>
-<span class="hljs-keyword">import</span> time
+<pre class="hljs"><code>import RPi.GPIO as GPIO # the library to manage Rasbperry Pi pins
+import time
 
-<span class="hljs-comment"># pins setup</span>
+# pins setup
 GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(<span class="hljs-literal">False</span>)
-pins = [<span class="hljs-number">18</span>,<span class="hljs-number">17</span>,<span class="hljs-number">15</span>,<span class="hljs-number">14</span>] 
+GPIO.setwarnings(False)
+pins = [18,17,15,14] 
 GPIO.setup(pins, GPIO.OUT)
 
-<span class="hljs-keyword">for</span> pin <span class="hljs-keyword">in</span> pins:
+for pin in pins:
     GPIO.output(pin,  GPIO.LOW)
 </code></pre>
 <p>All sockets off:</p>
-<pre class="hljs bg-dark text-white"><code><span class="hljs-comment"># same as previous script</span>
-<span class="hljs-comment"># only the for loop is different:</span>
-<span class="hljs-keyword">for</span> pin <span class="hljs-keyword">in</span> pins:
+<pre class="hljs"><code># same as previous script
+# only the for loop is different:
+for pin in pins:
     GPIO.output(pin,  GPIO.HIGH)
 GPIO.cleanup();
 </code></pre>
 <p>Then the scripts were called with GET requests from the website.
 Here’s the source code of the simple server handling the requests:</p>
-<pre class="hljs bg-dark text-white"><code><span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;express&#x27;</span>);
-<span class="hljs-keyword">const</span> {spawn} = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;child_process&#x27;</span>);
-<span class="hljs-keyword">const</span> app = express();
-<span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>);
-<span class="hljs-keyword">const</span> port = <span class="hljs-number">80</span>;
-<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;fs&#x27;</span>);
+<pre class="hljs"><code>const express = require('express');
+const {spawn} = require('child_process');
+const app = express();
+const path = require('path');
+const port = 80;
+const fs = require('fs');
 
-<span class="hljs-keyword">var</span> dir = path.join(__dirname, <span class="hljs-string">&#x27;public&#x27;</span>);
+var dir = path.join(__dirname, 'public');
 app.use(express.static(dir));
 
-app.get(<span class="hljs-string">&#x27;/notARealPath&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
-  res.writeHead(<span class="hljs-number">200</span>, { <span class="hljs-string">&#x27;content-type&#x27;</span>: <span class="hljs-string">&#x27;text/html&#x27;</span> });
-  fs.createReadStream(<span class="hljs-string">&#x27;index.html&#x27;</span>).pipe(res); <span class="hljs-comment">// serving simple page with a on / off buttons</span>
+app.get('/notARealPath', (req, res) =&gt; {
+  res.writeHead(200, { 'content-type': 'text/html' });
+  fs.createReadStream('index.html').pipe(res); // serving simple page with a on / off buttons
 });
 
-app.get(<span class="hljs-string">&#x27;/allOn&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
-  <span class="hljs-keyword">const</span> scriptPath = <span class="hljs-string">&#x27;allOn.py&#x27;</span>
-  <span class="hljs-keyword">const</span> process = spawn(<span class="hljs-string">&#x27;python&#x27;</span>, [scriptPath])
-    res.sendStatus(<span class="hljs-number">200</span>);
-  process.stdout.on(<span class="hljs-string">&#x27;data&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">myData</span>) =&gt;</span> {
-    <span class="hljs-comment">// ...</span>
+app.get('/allOn', (req, res) =&gt; {
+  const scriptPath = 'allOn.py'
+  const process = spawn('python', [scriptPath])
+    res.sendStatus(200);
+  process.stdout.on('data', (myData) =&gt; {
+    // ...
     })
-    process.stderr.on(<span class="hljs-string">&#x27;data&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">myErr</span>) =&gt;</span> {
-    <span class="hljs-comment">// ...</span>
-    })
-});
-
-app.get(<span class="hljs-string">&#x27;/allOff&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
-  <span class="hljs-keyword">const</span> scriptPath = <span class="hljs-string">&#x27;allOff.py&#x27;</span>
-  <span class="hljs-keyword">const</span> process = spawn(<span class="hljs-string">&#x27;python&#x27;</span>, [scriptPath])
-    res.sendStatus(<span class="hljs-number">200</span>);
-  process.stdout.on(<span class="hljs-string">&#x27;data&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">myData</span>) =&gt;</span> {
-    <span class="hljs-comment">// ...</span>
-    })
-    process.stderr.on(<span class="hljs-string">&#x27;data&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">myErr</span>) =&gt;</span> {
-    <span class="hljs-comment">// ...</span>
+    process.stderr.on('data', (myErr) =&gt; {
+    // ...
     })
 });
 
-app.listen(port, <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`App listening on port: <span class="hljs-subst">${port}</span>`</span>))
+app.get('/allOff', (req, res) =&gt; {
+  const scriptPath = 'allOff.py'
+  const process = spawn('python', [scriptPath])
+    res.sendStatus(200);
+  process.stdout.on('data', (myData) =&gt; {
+    // ...
+    })
+    process.stderr.on('data', (myErr) =&gt; {
+    // ...
+    })
+});
+
+app.listen(port, () =&gt; console.log(`App listening on port: ${port}`))
 </code></pre>
 <h2>Outside access</h2>
 <p>The main idea for this project was to control the lights from the outside - e.g. to turn them on only when arriving home. The Raspberry Pi used for this project was connected to a local network behind NAT. Without going into too much detail, the usual solution, port forwarding on the router, wasn’t possible in this case and I needed to get outside access to the Pi by other means.</p>
 <p>The solution was to set up an outside server that relied all the HTTP requests to the Raspberry Pi. To do that I used a reverse SSH connection that basically forwarded the local website to the remote server port 8080:</p>
-<pre class="hljs bg-dark text-white"><code>autossh -NR 8080:localhost:80 -i &lt;remote server SSH key&gt; user@&lt;remote server IP&gt;
+<pre class="hljs"><code>autossh -NR 8080:localhost:80 -i &lt;remote server SSH key&gt; user@&lt;remote server IP&gt;
 </code></pre>
 <h2>Final note</h2>
 <p>It would be better to use POST requests, but GET requests worked fine for this simple project.</p>

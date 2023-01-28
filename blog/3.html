@@ -28,7 +28,7 @@
 <script defer src="../js/bootstrap.bundle.min.js"></script>
 <script defer src="../js/main.js"></script>
 <noscript>
-    <style>
+   <style>
         .collapse {
             display: block !important;
         }
@@ -63,8 +63,6 @@
 
     <!-- specific style only for this page-->
     <link rel="stylesheet" href="../css/github-markdown.min.css">
-    <link rel="stylesheet" href="../css/highlight.min.css">
-    <script defer src="../js/highlight.min.js"></script>
 </head>
 
 <body>
@@ -76,7 +74,6 @@
             <span class="hamburger-inner"></span>
         </span>
     </button>
-
     <div id="navbarsTarget" class="collapse justify-content-center navbar-collapse text-center">
         <ul class="navbar-nav">
             <li class="nav-item changeLink ">
@@ -125,66 +122,66 @@ So, even such a simple robot as <a href="https://www.lego.com/en-us/product/lego
 <p>My idea was to control the robot through my laptop keyboard and make it react to obstacles (ultrasonic sensor) by playing a custom sound.</p>
 <p>The robot was operated through SSH connection and the program was run from there. Surprisingly this simplistic way of controlling the robot was more responsive then dedicated Lego app at the time.</p>
 <p>The simple code I used:</p>
-<pre class="hljs bg-dark text-white"><code><span class="hljs-keyword">from</span> ev3dev.ev3 <span class="hljs-keyword">import</span> * <span class="hljs-comment"># library for controling ev3</span>
-<span class="hljs-keyword">from</span> time <span class="hljs-keyword">import</span> sleep 
-<span class="hljs-keyword">import</span> sys, termios, tty, os <span class="hljs-comment"># keyboard listening</span>
+<pre class="hljs"><code>from ev3dev.ev3 import * # library for controling ev3
+from time import sleep 
+import sys, termios, tty, os # keyboard listening
  
-<span class="hljs-comment"># listening for keys</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getch</span>():</span>
+# listening for keys
+def getch():
     fd = sys.stdin.fileno()
     old_settings = termios.tcgetattr(fd)
-    <span class="hljs-keyword">try</span>:
+    try:
         tty.setraw(sys.stdin.fileno())
-        ch = sys.stdin.read(<span class="hljs-number">1</span>)
+        ch = sys.stdin.read(1)
  
-    <span class="hljs-keyword">finally</span>:
+    finally:
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-    <span class="hljs-keyword">return</span> ch
+    return ch
  
 
-<span class="hljs-comment"># initialising ultrasonic sensor</span>
+# initialising ultrasonic sensor
 us = UltrasonicSensor() 
-<span class="hljs-comment"># Put the sensor into distance mode</span>
-us.mode=<span class="hljs-string">&#x27;US-DIST-CM&#x27;</span>
+# Put the sensor into distance mode
+us.mode='US-DIST-CM'
 units = us.units
 
-<span class="hljs-comment"># motors initialisation</span>
-m = LargeMotor(<span class="hljs-string">&#x27;outB&#x27;</span>)
-a = LargeMotor(<span class="hljs-string">&#x27;outC&#x27;</span>)
-control=<span class="hljs-string">&#x27;&#x27;</span>
+# motors initialisation
+m = LargeMotor('outB')
+a = LargeMotor('outC')
+control=''
 
-Sound.play(<span class="hljs-string">&#x27;/home/robot/Beginning.wav&#x27;</span>).wait() <span class="hljs-comment"># starting sound</span>
+Sound.play('/home/robot/Beginning.wav').wait() # starting sound
 
-<span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Lets begin&#x27;</span>) <span class="hljs-comment"># starting script takes few seconds. This just indicates when it is ready.</span>
+print('Lets begin') # starting script takes few seconds. This just indicates when it is ready.
 
-<span class="hljs-keyword">while</span> control != <span class="hljs-string">&#x27;q&#x27;</span>:
-    distance = us.value()/<span class="hljs-number">10</span>
+while control != 'q':
+    distance = us.value()/10
     char = getch()
-    <span class="hljs-keyword">if</span> char == <span class="hljs-string">&#x27;q&#x27;</span>:
-        exit(<span class="hljs-number">0</span>)
-    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;e&#x27;</span>:
+    if char == 'q':
+        exit(0)
+    elif char == 'e':
         Leds.set_color(Leds.LEFT, Leds.RED)
         Leds.set_color(Leds.RIGHT, Leds.RED)
-        Sound.play(<span class="hljs-string">&#x27;/home/robot/Exterminate.wav&#x27;</span>).wait()
+        Sound.play('/home/robot/Exterminate.wav').wait()
         Leds.set_color(Leds.LEFT, Leds.YELLOW)
         Leds.set_color(Leds.RIGHT, Leds.YELLOW)
-    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;m&#x27;</span>:
-        Sound.play(<span class="hljs-string">&#x27;/home/robot/MustSurvive.wav&#x27;</span>).wait()
-    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27; &#x27;</span> <span class="hljs-keyword">and</span> distance &lt; <span class="hljs-number">20</span>:
-        <span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>(distance) + <span class="hljs-string">&quot; &quot;</span> + units)
-        Sound.play(<span class="hljs-string">&#x27;/home/robot/Exterminate.wav&#x27;</span>).wait()
-    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;w&#x27;</span>:
-        a.run_timed(time_sp=<span class="hljs-number">500</span>, speed_sp=<span class="hljs-number">900</span>)
-        m.run_timed(time_sp=<span class="hljs-number">500</span>, speed_sp=<span class="hljs-number">910</span>)
-    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;s&#x27;</span>:
-        a.run_timed(time_sp=<span class="hljs-number">500</span>, speed_sp=-<span class="hljs-number">900</span>)
-        m.run_timed(time_sp=<span class="hljs-number">500</span>, speed_sp=-<span class="hljs-number">900</span>)
-    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;a&#x27;</span>:
-        a.run_timed(time_sp=<span class="hljs-number">140</span>, speed_sp=<span class="hljs-number">200</span>)
-        m.run_timed(time_sp=<span class="hljs-number">140</span>, speed_sp=-<span class="hljs-number">200</span>)
-    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;d&#x27;</span>:
-        a.run_timed(time_sp=<span class="hljs-number">140</span>, speed_sp=-<span class="hljs-number">200</span>)
-        m.run_timed(time_sp=<span class="hljs-number">140</span>, speed_sp=<span class="hljs-number">200</span>)
+    elif char == 'm':
+        Sound.play('/home/robot/MustSurvive.wav').wait()
+    elif char == ' ' and distance &lt; 20:
+        print(str(distance) + &quot; &quot; + units)
+        Sound.play('/home/robot/Exterminate.wav').wait()
+    elif char == 'w':
+        a.run_timed(time_sp=500, speed_sp=900)
+        m.run_timed(time_sp=500, speed_sp=910)
+    elif char == 's':
+        a.run_timed(time_sp=500, speed_sp=-900)
+        m.run_timed(time_sp=500, speed_sp=-900)
+    elif char == 'a':
+        a.run_timed(time_sp=140, speed_sp=200)
+        m.run_timed(time_sp=140, speed_sp=-200)
+    elif char == 'd':
+        a.run_timed(time_sp=140, speed_sp=-200)
+        m.run_timed(time_sp=140, speed_sp=200)
 </code></pre>
 <p><img src="../images/BlogPhotos/lego.jpg" alt="lego robot"></p>
 
