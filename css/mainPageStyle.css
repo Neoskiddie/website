@@ -29,13 +29,6 @@ html {
     min-height: 100%;
 }
 
-/*
-old css that was used for photo or something on about page
-.profileHeader h2 {
-    font-size: 1em;
-}
-*/
-
 hr {
     background-color: rgb(51, 55, 57);
     height: 2px;
@@ -119,7 +112,6 @@ footer div a:hover {
 }
 
 /* -------------------------------------------------- */
-
 /* navbar */
 .navbar {
     text-transform: uppercase;
@@ -134,6 +126,7 @@ footer div a:hover {
     text-decoration: none;
 }
 
+/* -------------------------------------------------- */
 /* console */
 
 .hidden {
@@ -181,7 +174,6 @@ footer div a:hover {
 }
 
 /* -------------------------------------------------- */
-
 /* images galery */
 
 .gallery {
@@ -203,159 +195,12 @@ footer div a:hover {
     }
 }
 
-.clickable-image {
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.clickable-image:hover {
-    opacity: 0.7;
-}
-
 /* for hiding images when JS is disabled */
 .hidden {
     display: none;
 }
 
 /* -------------------------------------------------- */
-
-/* image modal (in galery)*/
-
-#imageModal {
-    display: none;
-    /* Hidden by default */
-    position: fixed;
-    /* Stay in place */
-    z-index: 1;
-    /* Sit on top */
-    padding-top: 100px;
-    /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%;
-    /* Full width */
-    height: 100%;
-    /* Full height */
-    overflow: auto;
-    /* Enable scroll if needed */
-    background-color: rgb(0, 0, 0);
-    /* Fallback color */
-    background-color: rgba(0, 0, 0, 0.9);
-    /* Black w/ opacity */
-}
-
-/* Modal Content (image) */
-
-.modal-content {
-    margin: auto;
-    display: block;
-    width: 80%;
-    max-width: 1000px;
-}
-
-/* Caption of Modal Image */
-
-#caption {
-    margin: auto;
-    display: block;
-    width: 80%;
-    max-width: 700px;
-    text-align: center;
-    color: #ccc;
-    padding: 10px 0;
-    height: 150px;
-}
-
-/* Add Animation */
-
-.modal-content,
-#caption {
-    -webkit-animation-name: zoom;
-    -webkit-animation-duration: 0.6s;
-    animation-name: zoom;
-    animation-duration: 0.6s;
-}
-
-@-webkit-keyframes zoom {
-    from {
-        -webkit-transform: scale(0)
-    }
-
-    to {
-        -webkit-transform: scale(1)
-    }
-}
-
-@keyframes zoom {
-    from {
-        transform: scale(0)
-    }
-
-    to {
-        transform: scale(1)
-    }
-}
-
-/* The Close Button */
-
-.pseudo-close-btn {
-    position: absolute;
-    top: 55px;
-    right: 135px;
-    color: var(--accent-color);
-    font-size: 40px;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.pseudo-close-btn:hover,
-.pseudo-close-btn:focus {
-    color: #bbb;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-/* 100% Image Width on Smaller Screens */
-
-@media only screen and (max-width: 700px) {
-    .modal-content {
-        width: 100%;
-    }
-}
-
-/* -------------------------------------------------- */
-
-/* cookie botstrap modal */
-
-.modal-header {
-    border-bottom-color: rgb(53, 58, 60);
-}
-
-.modal-footer {
-    border-top-color: rgb(53, 58, 60);
-}
-
-.modal-content {
-    background-color: rgb(24, 26, 27);
-    border-color: rgba(140, 130, 115, 0.2);
-    outline-color: currentcolor;
-}
-
-.close {
-    color: red;
-    text-shadow: rgb(24, 26, 27) 0px 1px 0px;
-}
-
-/* -------------------------------------------------- */
-
-/* blog */
-
-.postList {
-    list-style-type: none;
-    font-size: 2rem;
-}
-
-
 /* markdown - for post */
 
 .markdown-body {
@@ -373,5 +218,3 @@ footer div a:hover {
         padding: 15px;
     }
 }
-
-/* -------------------------------------------------- */
