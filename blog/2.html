@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Grzegorz Bronka - post: Remote-controlled Christmas lights
+  <title>Grzegorz Bronka - post: Building custom PC
 </title>
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -83,9 +83,8 @@
 
 
     <!-- specific style only for this page-->
-    <link rel="stylesheet" href="../css/github-markdown.min.css">
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
     <link rel="stylesheet" href="../css/dracula.css">
+    <link rel="stylesheet" href="../css/github-markdown.min.css">
 </head>
 
 <body>
@@ -105,11 +104,11 @@
 
 
             <li class="nav-item changeLink ">
-                <a class="nav-link" href="../galery.html">Galery</a>
-            </li>
-            <li class="nav-item changeLink ">
                 <!-- [~]$ whoami -->
                 <a class="nav-link" href="../about.html">Whoami</a>
+            </li>
+            <li class="nav-item changeLink ">
+                <a class="nav-link" href="../galery.html">Galery</a>
             </li>
             <li class="nav-item changeLink ">
                 <a class="nav-link" href="../contact.html">Contact</a>
@@ -126,99 +125,35 @@
       <div class="container main-container">
         <div class="text-center">
           <h2>
-            Remote-controlled Christmas lights
+            Building custom PC
           </h2>
           <p class="text-center">
-            Fri Dec 18 2020
+            Thu May 02 2019
           </p>
           <hr />
         </div>
         <article class="markdown-body">
           <p>
-            Web interface for controlling Christmas lights from anywhere
+            How I moved from barely usable laptop to custom made PC
           </p>
           <hr />
-          <h2>Idea</h2>
-<p>The idea was to control the Christmas lights from anywhere. I wanted to be able to turn them on when I’m coming home and don’t waste electricity when I’m away.</p>
-<h2>Wiring</h2>
-<p>The physical setup used for this project was four relies controlled with <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/">Raspberry Pi computer</a>
-<img src="../images/BlogPhotos/raspberryPi.jpg" alt="Raspberry Pi"></p>
-<p><img src="../images/BlogPhotos/inside.jpg" alt="A view of the inside of the switch"></p>
-<p>The wiring allowed to control 250V electrical current with 5V from RasbperryPi.</p>
-<h2>Server</h2>
-<p>The switches used for the lights couldn’t control the brightness of the lights, so I decided it’ll be best to just turn all of them at once. I used two very simple scripts for that.</p>
-<p>All sockets on:</p>
-<pre class="hljs bg-dark text-white"><code><span class="hljs-keyword">import</span> RPi.GPIO <span class="hljs-keyword">as</span> GPIO <span class="hljs-comment"># the library to manage Rasbperry Pi pins</span>
-<span class="hljs-keyword">import</span> time
-
-<span class="hljs-comment"># pins setup</span>
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(<span class="hljs-literal">False</span>)
-pins = [<span class="hljs-number">18</span>,<span class="hljs-number">17</span>,<span class="hljs-number">15</span>,<span class="hljs-number">14</span>] 
-GPIO.setup(pins, GPIO.OUT)
-
-<span class="hljs-keyword">for</span> pin <span class="hljs-keyword">in</span> pins:
-    GPIO.output(pin,  GPIO.LOW)
-</code></pre>
-<p>All sockets off:</p>
-<pre class="hljs bg-dark text-white"><code><span class="hljs-comment"># same as previous script</span>
-<span class="hljs-comment"># only the for loop is different:</span>
-<span class="hljs-keyword">for</span> pin <span class="hljs-keyword">in</span> pins:
-    GPIO.output(pin,  GPIO.HIGH)
-GPIO.cleanup();
-</code></pre>
-<p>Then the scripts were called with GET requests from the website.
-Here’s the source code of the simple server handling the requests:</p>
-<pre class="hljs bg-dark text-white"><code><span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;express&#x27;</span>);
-<span class="hljs-keyword">const</span> {spawn} = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;child_process&#x27;</span>);
-<span class="hljs-keyword">const</span> app = express();
-<span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>);
-<span class="hljs-keyword">const</span> port = <span class="hljs-number">80</span>;
-<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;fs&#x27;</span>);
-
-<span class="hljs-keyword">var</span> dir = path.join(__dirname, <span class="hljs-string">&#x27;public&#x27;</span>);
-app.use(express.static(dir));
-
-app.get(<span class="hljs-string">&#x27;/notARealPath&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
-  res.writeHead(<span class="hljs-number">200</span>, { <span class="hljs-string">&#x27;content-type&#x27;</span>: <span class="hljs-string">&#x27;text/html&#x27;</span> });
-  fs.createReadStream(<span class="hljs-string">&#x27;index.html&#x27;</span>).pipe(res); <span class="hljs-comment">// serving simple page with a on / off buttons</span>
-});
-
-app.get(<span class="hljs-string">&#x27;/allOn&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
-  <span class="hljs-keyword">const</span> scriptPath = <span class="hljs-string">&#x27;allOn.py&#x27;</span>
-  <span class="hljs-keyword">const</span> process = spawn(<span class="hljs-string">&#x27;python&#x27;</span>, [scriptPath])
-    res.sendStatus(<span class="hljs-number">200</span>);
-  process.stdout.on(<span class="hljs-string">&#x27;data&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">myData</span>) =&gt;</span> {
-    <span class="hljs-comment">// ...</span>
-    })
-    process.stderr.on(<span class="hljs-string">&#x27;data&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">myErr</span>) =&gt;</span> {
-    <span class="hljs-comment">// ...</span>
-    })
-});
-
-app.get(<span class="hljs-string">&#x27;/allOff&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
-  <span class="hljs-keyword">const</span> scriptPath = <span class="hljs-string">&#x27;allOff.py&#x27;</span>
-  <span class="hljs-keyword">const</span> process = spawn(<span class="hljs-string">&#x27;python&#x27;</span>, [scriptPath])
-    res.sendStatus(<span class="hljs-number">200</span>);
-  process.stdout.on(<span class="hljs-string">&#x27;data&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">myData</span>) =&gt;</span> {
-    <span class="hljs-comment">// ...</span>
-    })
-    process.stderr.on(<span class="hljs-string">&#x27;data&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">myErr</span>) =&gt;</span> {
-    <span class="hljs-comment">// ...</span>
-    })
-});
-
-app.listen(port, <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`App listening on port: <span class="hljs-subst">${port}</span>`</span>))
-</code></pre>
-<h2>Outside access</h2>
-<p>The main idea for this project was to control the lights from the outside - e.g. to turn them on only when arriving home. The Raspberry Pi used for this project was connected to a local network behind NAT. Without going into too much detail, the usual solution, port forwarding on the router, wasn’t possible in this case and I needed to get outside access to the Pi by other means.</p>
-<p>The solution was to set up an outside server that relied all the HTTP requests to the Raspberry Pi. To do that I used a reverse SSH connection that basically forwarded the local website to the remote server port 8080:</p>
-<pre class="hljs bg-dark text-white"><code>autossh -NR 8080:localhost:80 -i &lt;remote server SSH key&gt; user@&lt;remote server IP&gt;
-</code></pre>
-<h2>Final note</h2>
-<p>It would be better to use POST requests, but GET requests worked fine for this simple project.</p>
-<p>The page had no security other than long paths for the requests, but even if someone guessed the paths used in the actual server, this is basically over-engineered light switch <a href="https://www.youtube.com/watch?v=onZ4KMM94yI">https://www.youtube.com/watch?v=onZ4KMM94yI</a></p>
-<p><img src="../images/BlogPhotos/lights.jpg" alt="Lights"></p>
+          <p>During my first years at university, I used an old Lenovo Thinkpad 420. It’s a good laptop for office work but can barely run anything more demanding like virtualisation or gaming.</p>
+<p>To make it more usable I’ve connected an external GPU (GTX 1050Ti) to it with some shady eGPU adapter:</p>
+<p><img src="../images/BlogPhotos/initialSetup.jpeg" alt="Initial Setup"></p>
+<p>The laptop would crash from time to time, but was able to run anything that required GPU.
+However, that didn’t help with the lack of RAM and CPU power.</p>
+<h2>new PC</h2>
+<p>After some saving, part by part I build my PC. Building it on my own allowed me to save some money and learn a bit more about hardware.</p>
+<p>Specs:</p>
+<ul>
+<li>GTX 1050Ti. Later upgraded to RTX 3060Ti</li>
+<li>32GB (4 * 8GB) of Corsair Vengeance Low Profile 3200MHz</li>
+<li>Corsair Hydro Series H100i PRO</li>
+<li>Intel i5 9600k</li>
+<li>Asus PRIME Z390-A motherboard</li>
+<li>500W PSU from Corsair</li>
+</ul>
+<p><img src="../images/BlogPhotos/0004.jpg" alt="PC"></p>
 
         </article>
       </div>

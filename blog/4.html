@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Grzegorz Bronka - post: About this website
+  <title>Grzegorz Bronka - post: Hackathon project
 </title>
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -125,59 +125,87 @@
       <div class="container main-container">
         <div class="text-center">
           <h2>
-            About this website
+            Hackathon project
           </h2>
           <p class="text-center">
-            Sun Jan 29 2023
+            Sun Dec 02 2018
           </p>
           <hr />
         </div>
         <article class="markdown-body">
           <p>
-            About creating and publishing this website.
+            My first hackathon project
           </p>
           <hr />
-          <h2>About</h2>
-<p>The source code found here isn’t the actual code I wrote.
-I’m running a Node.js server locally and using <code>wget</code> command to make a snapshot of the website.</p>
-<p>The command I use is:</p>
-<pre class="hljs bg-code text-white"><code>wget --mirror --convert-links --adjust-extension --page-requisites --no-parent -e robots=off http://localhost:3000
-</code></pre>
-<p>Then I just copy the files with <code>rsync</code> excluding some of the files I don’t want to change:</p>
-<pre class="hljs bg-code text-white"><code>rsync -av --delete --exclude=.git --exclude=CNAME --exclude=robots.txt <span class="hljs-string">&quot;./localhost:3000/&quot;</span> <span class="hljs-string">&quot;./website
-</span></code></pre>
-<p>A static site generated like that is published through GitHub pages.</p>
-<p>This has several advantages:</p>
-<ul>
-<li>Faster loading - the site is already generated as static HTML files</li>
-<li>Vulnerabilities in Node.js or other packages I use don’t affect this site</li>
-<li>I can see all the files that get published, no way to leak the source code</li>
-<li>Don’t need to pay for VPS to host this site</li>
-</ul>
-<p>For example, the body of the gallery page looks like this in Node.js:</p>
-<pre class="hljs bg-code text-white"><code><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
-    &lt;%- include(&#x27;../partials/header&#x27;) %&gt;
+          <p>This was the first hackathon that I participated in - small local hackathon that lasted only around 12 hours in total.</p>
+<p>During my first year at university most of my time I was programming, but I’ve never had any experience with robotics.
+So, even such a simple robot as <a href="https://www.lego.com/en-us/product/lego-mindstorms-ev3-31313">Lego EV3</a> seemed an interesting project.</p>
+<p>Lego provides software and apps to control their robots, but I wanted to make something a bit different.</p>
+<p>My idea was to control the robot through my laptop keyboard and make it react to obstacles (ultrasonic sensor) by playing a custom sound.</p>
+<p>The robot was operated through SSH connection and the program was run from there. Surprisingly this simplistic way of controlling the robot was more responsive then dedicated Lego app at the time.</p>
+<p>The simple code I used:</p>
+<pre class="hljs bg-code text-white"><code><span class="hljs-keyword">from</span> ev3dev.ev3 <span class="hljs-keyword">import</span> * <span class="hljs-comment"># library for controling ev3</span>
+<span class="hljs-keyword">from</span> time <span class="hljs-keyword">import</span> sleep 
+<span class="hljs-keyword">import</span> sys, termios, tty, os <span class="hljs-comment"># keyboard listening</span>
+ 
+<span class="hljs-comment"># listening for keys</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getch</span>():</span>
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)
+    <span class="hljs-keyword">try</span>:
+        tty.setraw(sys.stdin.fileno())
+        ch = sys.stdin.read(<span class="hljs-number">1</span>)
+ 
+    <span class="hljs-keyword">finally</span>:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    <span class="hljs-keyword">return</span> ch
+ 
 
-    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;container main-container&quot;</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;gallery&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;gallery&quot;</span>&gt;</span>
-            &lt;% for(var i=1; i &lt; files.length; i++) {%&gt;
-                &lt;% let image = &quot;images/privatePhotos/small/&quot; + files[i][&quot;image&quot;] %&gt;
-                &lt;% let thumbnail = &quot;images/privatePhotos/thumbnails/&quot; + thumbnails[i] %&gt;
-                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mb-3 pics animation all 2&quot;</span>&gt;</span>
-                    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;&lt;%= image %&gt;&quot;</span>
-                        <span class="hljs-attr">data-pswp-width</span>=<span class="hljs-string">&quot;&lt;%= files[i][&quot;</span><span class="hljs-attr">width</span>&quot;] %&gt;</span>&quot; 
-                        data-pswp-height=&quot;&lt;%= files[i][&quot;height&quot;] %&gt;&quot;&gt;
-                        <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;img-fluid&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;&lt;%= thumbnail %&gt;&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> /&gt;</span>
-                    <span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-            &lt;% } %&gt;
-        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-comment"># initialising ultrasonic sensor</span>
+us = UltrasonicSensor() 
+<span class="hljs-comment"># Put the sensor into distance mode</span>
+us.mode=<span class="hljs-string">&#x27;US-DIST-CM&#x27;</span>
+units = us.units
 
-    &lt;%- include(&#x27;../partials/footer&#x27;) %&gt;
-<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-comment"># motors initialisation</span>
+m = LargeMotor(<span class="hljs-string">&#x27;outB&#x27;</span>)
+a = LargeMotor(<span class="hljs-string">&#x27;outC&#x27;</span>)
+control=<span class="hljs-string">&#x27;&#x27;</span>
+
+Sound.play(<span class="hljs-string">&#x27;/home/robot/Beginning.wav&#x27;</span>).wait() <span class="hljs-comment"># starting sound</span>
+
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Lets begin&#x27;</span>) <span class="hljs-comment"># starting script takes few seconds. This just indicates when it is ready.</span>
+
+<span class="hljs-keyword">while</span> control != <span class="hljs-string">&#x27;q&#x27;</span>:
+    distance = us.value()/<span class="hljs-number">10</span>
+    char = getch()
+    <span class="hljs-keyword">if</span> char == <span class="hljs-string">&#x27;q&#x27;</span>:
+        exit(<span class="hljs-number">0</span>)
+    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;e&#x27;</span>:
+        Leds.set_color(Leds.LEFT, Leds.RED)
+        Leds.set_color(Leds.RIGHT, Leds.RED)
+        Sound.play(<span class="hljs-string">&#x27;/home/robot/Exterminate.wav&#x27;</span>).wait()
+        Leds.set_color(Leds.LEFT, Leds.YELLOW)
+        Leds.set_color(Leds.RIGHT, Leds.YELLOW)
+    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;m&#x27;</span>:
+        Sound.play(<span class="hljs-string">&#x27;/home/robot/MustSurvive.wav&#x27;</span>).wait()
+    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27; &#x27;</span> <span class="hljs-keyword">and</span> distance &lt; <span class="hljs-number">20</span>:
+        <span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>(distance) + <span class="hljs-string">&quot; &quot;</span> + units)
+        Sound.play(<span class="hljs-string">&#x27;/home/robot/Exterminate.wav&#x27;</span>).wait()
+    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;w&#x27;</span>:
+        a.run_timed(time_sp=<span class="hljs-number">500</span>, speed_sp=<span class="hljs-number">900</span>)
+        m.run_timed(time_sp=<span class="hljs-number">500</span>, speed_sp=<span class="hljs-number">910</span>)
+    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;s&#x27;</span>:
+        a.run_timed(time_sp=<span class="hljs-number">500</span>, speed_sp=-<span class="hljs-number">900</span>)
+        m.run_timed(time_sp=<span class="hljs-number">500</span>, speed_sp=-<span class="hljs-number">900</span>)
+    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;a&#x27;</span>:
+        a.run_timed(time_sp=<span class="hljs-number">140</span>, speed_sp=<span class="hljs-number">200</span>)
+        m.run_timed(time_sp=<span class="hljs-number">140</span>, speed_sp=-<span class="hljs-number">200</span>)
+    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;d&#x27;</span>:
+        a.run_timed(time_sp=<span class="hljs-number">140</span>, speed_sp=-<span class="hljs-number">200</span>)
+        m.run_timed(time_sp=<span class="hljs-number">140</span>, speed_sp=<span class="hljs-number">200</span>)
 </code></pre>
-<p>which results in <a href="https://github.com/Neoskiddie/website/blob/main/galery.html">this static file</a></p>
+<p><img src="../images/BlogPhotos/lego.jpg" alt="lego robot"></p>
 
         </article>
       </div>

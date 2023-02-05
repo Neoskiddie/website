@@ -218,3 +218,7 @@ footer div a:hover {
         padding: 15px;
     }
 }
+
+.bg-code {
+    background-color: #282a36 !important;
+}

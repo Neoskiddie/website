@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Grzegorz Bronka - post: Hackathon project
+  <title>Grzegorz Bronka - post: Remote-controlled Christmas lights
 </title>
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -83,9 +83,8 @@
 
 
     <!-- specific style only for this page-->
-    <link rel="stylesheet" href="../css/github-markdown.min.css">
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
     <link rel="stylesheet" href="../css/dracula.css">
+    <link rel="stylesheet" href="../css/github-markdown.min.css">
 </head>
 
 <body>
@@ -105,11 +104,11 @@
 
 
             <li class="nav-item changeLink ">
-                <a class="nav-link" href="../galery.html">Galery</a>
-            </li>
-            <li class="nav-item changeLink ">
                 <!-- [~]$ whoami -->
                 <a class="nav-link" href="../about.html">Whoami</a>
+            </li>
+            <li class="nav-item changeLink ">
+                <a class="nav-link" href="../galery.html">Galery</a>
             </li>
             <li class="nav-item changeLink ">
                 <a class="nav-link" href="../contact.html">Contact</a>
@@ -126,87 +125,99 @@
       <div class="container main-container">
         <div class="text-center">
           <h2>
-            Hackathon project
+            Remote-controlled Christmas lights
           </h2>
           <p class="text-center">
-            Sun Dec 02 2018
+            Fri Dec 18 2020
           </p>
           <hr />
         </div>
         <article class="markdown-body">
           <p>
-            My first hackathon project
+            Web interface for controlling Christmas lights from anywhere
           </p>
           <hr />
-          <p>This was the first hackathon that I participated in - small local hackathon that lasted only around 12 hours in total.</p>
-<p>During my first year at university most of my time I was programming, but I’ve never had any experience with robotics.
-So, even such a simple robot as <a href="https://www.lego.com/en-us/product/lego-mindstorms-ev3-31313">Lego EV3</a> seemed an interesting project.</p>
-<p>Lego provides software and apps to control their robots, but I wanted to make something a bit different.</p>
-<p>My idea was to control the robot through my laptop keyboard and make it react to obstacles (ultrasonic sensor) by playing a custom sound.</p>
-<p>The robot was operated through SSH connection and the program was run from there. Surprisingly this simplistic way of controlling the robot was more responsive then dedicated Lego app at the time.</p>
-<p>The simple code I used:</p>
-<pre class="hljs bg-dark text-white"><code><span class="hljs-keyword">from</span> ev3dev.ev3 <span class="hljs-keyword">import</span> * <span class="hljs-comment"># library for controling ev3</span>
-<span class="hljs-keyword">from</span> time <span class="hljs-keyword">import</span> sleep 
-<span class="hljs-keyword">import</span> sys, termios, tty, os <span class="hljs-comment"># keyboard listening</span>
- 
-<span class="hljs-comment"># listening for keys</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getch</span>():</span>
-    fd = sys.stdin.fileno()
-    old_settings = termios.tcgetattr(fd)
-    <span class="hljs-keyword">try</span>:
-        tty.setraw(sys.stdin.fileno())
-        ch = sys.stdin.read(<span class="hljs-number">1</span>)
- 
-    <span class="hljs-keyword">finally</span>:
-        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-    <span class="hljs-keyword">return</span> ch
- 
+          <h2>Idea</h2>
+<p>The idea was to control the Christmas lights from anywhere. I wanted to be able to turn them on when I’m coming home and don’t waste electricity when I’m away.</p>
+<h2>Wiring</h2>
+<p>The physical setup used for this project was four relies controlled with <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/">Raspberry Pi computer</a>
+<img src="../images/BlogPhotos/raspberryPi.jpg" alt="Raspberry Pi"></p>
+<p><img src="../images/BlogPhotos/inside.jpg" alt="A view of the inside of the switch"></p>
+<p>The wiring allowed to control 250V electrical current with 5V from RasbperryPi.</p>
+<h2>Server</h2>
+<p>The switches used for the lights couldn’t control the brightness of the lights, so I decided it’ll be best to just turn all of them at once. I used two very simple scripts for that.</p>
+<p>All sockets on:</p>
+<pre class="hljs bg-code text-white"><code><span class="hljs-keyword">import</span> RPi.GPIO <span class="hljs-keyword">as</span> GPIO <span class="hljs-comment"># the library to manage Rasbperry Pi pins</span>
+<span class="hljs-keyword">import</span> time
 
-<span class="hljs-comment"># initialising ultrasonic sensor</span>
-us = UltrasonicSensor() 
-<span class="hljs-comment"># Put the sensor into distance mode</span>
-us.mode=<span class="hljs-string">&#x27;US-DIST-CM&#x27;</span>
-units = us.units
+<span class="hljs-comment"># pins setup</span>
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(<span class="hljs-literal">False</span>)
+pins = [<span class="hljs-number">18</span>,<span class="hljs-number">17</span>,<span class="hljs-number">15</span>,<span class="hljs-number">14</span>] 
+GPIO.setup(pins, GPIO.OUT)
 
-<span class="hljs-comment"># motors initialisation</span>
-m = LargeMotor(<span class="hljs-string">&#x27;outB&#x27;</span>)
-a = LargeMotor(<span class="hljs-string">&#x27;outC&#x27;</span>)
-control=<span class="hljs-string">&#x27;&#x27;</span>
-
-Sound.play(<span class="hljs-string">&#x27;/home/robot/Beginning.wav&#x27;</span>).wait() <span class="hljs-comment"># starting sound</span>
-
-<span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Lets begin&#x27;</span>) <span class="hljs-comment"># starting script takes few seconds. This just indicates when it is ready.</span>
-
-<span class="hljs-keyword">while</span> control != <span class="hljs-string">&#x27;q&#x27;</span>:
-    distance = us.value()/<span class="hljs-number">10</span>
-    char = getch()
-    <span class="hljs-keyword">if</span> char == <span class="hljs-string">&#x27;q&#x27;</span>:
-        exit(<span class="hljs-number">0</span>)
-    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;e&#x27;</span>:
-        Leds.set_color(Leds.LEFT, Leds.RED)
-        Leds.set_color(Leds.RIGHT, Leds.RED)
-        Sound.play(<span class="hljs-string">&#x27;/home/robot/Exterminate.wav&#x27;</span>).wait()
-        Leds.set_color(Leds.LEFT, Leds.YELLOW)
-        Leds.set_color(Leds.RIGHT, Leds.YELLOW)
-    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;m&#x27;</span>:
-        Sound.play(<span class="hljs-string">&#x27;/home/robot/MustSurvive.wav&#x27;</span>).wait()
-    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27; &#x27;</span> <span class="hljs-keyword">and</span> distance &lt; <span class="hljs-number">20</span>:
-        <span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>(distance) + <span class="hljs-string">&quot; &quot;</span> + units)
-        Sound.play(<span class="hljs-string">&#x27;/home/robot/Exterminate.wav&#x27;</span>).wait()
-    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;w&#x27;</span>:
-        a.run_timed(time_sp=<span class="hljs-number">500</span>, speed_sp=<span class="hljs-number">900</span>)
-        m.run_timed(time_sp=<span class="hljs-number">500</span>, speed_sp=<span class="hljs-number">910</span>)
-    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;s&#x27;</span>:
-        a.run_timed(time_sp=<span class="hljs-number">500</span>, speed_sp=-<span class="hljs-number">900</span>)
-        m.run_timed(time_sp=<span class="hljs-number">500</span>, speed_sp=-<span class="hljs-number">900</span>)
-    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;a&#x27;</span>:
-        a.run_timed(time_sp=<span class="hljs-number">140</span>, speed_sp=<span class="hljs-number">200</span>)
-        m.run_timed(time_sp=<span class="hljs-number">140</span>, speed_sp=-<span class="hljs-number">200</span>)
-    <span class="hljs-keyword">elif</span> char == <span class="hljs-string">&#x27;d&#x27;</span>:
-        a.run_timed(time_sp=<span class="hljs-number">140</span>, speed_sp=-<span class="hljs-number">200</span>)
-        m.run_timed(time_sp=<span class="hljs-number">140</span>, speed_sp=<span class="hljs-number">200</span>)
+<span class="hljs-keyword">for</span> pin <span class="hljs-keyword">in</span> pins:
+    GPIO.output(pin,  GPIO.LOW)
 </code></pre>
-<p><img src="../images/BlogPhotos/lego.jpg" alt="lego robot"></p>
+<p>All sockets off:</p>
+<pre class="hljs bg-code text-white"><code><span class="hljs-comment"># same as previous script</span>
+<span class="hljs-comment"># only the for loop is different:</span>
+<span class="hljs-keyword">for</span> pin <span class="hljs-keyword">in</span> pins:
+    GPIO.output(pin,  GPIO.HIGH)
+GPIO.cleanup();
+</code></pre>
+<p>Then the scripts were called with GET requests from the website.
+Here’s the source code of the simple server handling the requests:</p>
+<pre class="hljs bg-code text-white"><code><span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;express&#x27;</span>);
+<span class="hljs-keyword">const</span> {spawn} = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;child_process&#x27;</span>);
+<span class="hljs-keyword">const</span> app = express();
+<span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>);
+<span class="hljs-keyword">const</span> port = <span class="hljs-number">80</span>;
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;fs&#x27;</span>);
+
+<span class="hljs-keyword">var</span> dir = path.join(__dirname, <span class="hljs-string">&#x27;public&#x27;</span>);
+app.use(express.static(dir));
+
+app.get(<span class="hljs-string">&#x27;/notARealPath&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+  res.writeHead(<span class="hljs-number">200</span>, { <span class="hljs-string">&#x27;content-type&#x27;</span>: <span class="hljs-string">&#x27;text/html&#x27;</span> });
+  fs.createReadStream(<span class="hljs-string">&#x27;index.html&#x27;</span>).pipe(res); <span class="hljs-comment">// serving simple page with a on / off buttons</span>
+});
+
+app.get(<span class="hljs-string">&#x27;/allOn&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> scriptPath = <span class="hljs-string">&#x27;allOn.py&#x27;</span>
+  <span class="hljs-keyword">const</span> process = spawn(<span class="hljs-string">&#x27;python&#x27;</span>, [scriptPath])
+    res.sendStatus(<span class="hljs-number">200</span>);
+  process.stdout.on(<span class="hljs-string">&#x27;data&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">myData</span>) =&gt;</span> {
+    <span class="hljs-comment">// ...</span>
+    })
+    process.stderr.on(<span class="hljs-string">&#x27;data&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">myErr</span>) =&gt;</span> {
+    <span class="hljs-comment">// ...</span>
+    })
+});
+
+app.get(<span class="hljs-string">&#x27;/allOff&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> scriptPath = <span class="hljs-string">&#x27;allOff.py&#x27;</span>
+  <span class="hljs-keyword">const</span> process = spawn(<span class="hljs-string">&#x27;python&#x27;</span>, [scriptPath])
+    res.sendStatus(<span class="hljs-number">200</span>);
+  process.stdout.on(<span class="hljs-string">&#x27;data&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">myData</span>) =&gt;</span> {
+    <span class="hljs-comment">// ...</span>
+    })
+    process.stderr.on(<span class="hljs-string">&#x27;data&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">myErr</span>) =&gt;</span> {
+    <span class="hljs-comment">// ...</span>
+    })
+});
+
+app.listen(port, <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`App listening on port: <span class="hljs-subst">${port}</span>`</span>))
+</code></pre>
+<h2>Outside access</h2>
+<p>The main idea for this project was to control the lights from the outside - e.g. to turn them on only when arriving home. The Raspberry Pi used for this project was connected to a local network behind NAT. Without going into too much detail, the usual solution, port forwarding on the router, wasn’t possible in this case and I needed to get outside access to the Pi by other means.</p>
+<p>The solution was to set up an outside server that relied all the HTTP requests to the Raspberry Pi. To do that I used a reverse SSH connection that basically forwarded the local website to the remote server port 8080:</p>
+<pre class="hljs bg-code text-white"><code>autossh -NR 8080:localhost:80 -i &lt;remote server SSH key&gt; user@&lt;remote server IP&gt;
+</code></pre>
+<h2>Final note</h2>
+<p>It would be better to use POST requests, but GET requests worked fine for this simple project.</p>
+<p>The page had no security other than long paths for the requests, but even if someone guessed the paths used in the actual server, this is basically over-engineered light switch <a href="https://www.youtube.com/watch?v=onZ4KMM94yI">https://www.youtube.com/watch?v=onZ4KMM94yI</a></p>
+<p><img src="../images/BlogPhotos/lights.jpg" alt="Lights"></p>
 
         </article>
       </div>
