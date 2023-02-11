@@ -144,7 +144,7 @@ So, even such a simple robot as <a href="https://www.lego.com/en-us/product/lego
 <p>My idea was to control the robot through my laptop keyboard and make it react to obstacles (ultrasonic sensor) by playing a custom sound.</p>
 <p>The robot was operated through SSH connection and the program was run from there. Surprisingly this simplistic way of controlling the robot was more responsive then dedicated Lego app at the time.</p>
 <p>The simple code I used:</p>
-<pre class="hljs bg-code text-white"><code><span class="hljs-keyword">from</span> ev3dev.ev3 <span class="hljs-keyword">import</span> * <span class="hljs-comment"># library for controling ev3</span>
+<pre class="hljs bg-code"><code><span class="hljs-keyword">from</span> ev3dev.ev3 <span class="hljs-keyword">import</span> * <span class="hljs-comment"># library for controling ev3</span>
 <span class="hljs-keyword">from</span> time <span class="hljs-keyword">import</span> sleep 
 <span class="hljs-keyword">import</span> sys, termios, tty, os <span class="hljs-comment"># keyboard listening</span>
  
@@ -211,8 +211,12 @@ Sound.play(<span class="hljs-string">&#x27;/home/robot/Beginning.wav&#x27;</span
       </div>
     <footer class="text-center">
     <div class="container">
-        <a href="https://github.com/Neoskiddie"><img width="20" src="../images/github.png" alt="github icon"></a>
-        <a href="https://www.linkedin.com/in/grzegorz-bronka"><img width="20" src="../images/linkedin.png" alt="github icon"></a>
+        <a class="p-2" href="https://github.com/Neoskiddie">
+            <img width="20" src="../images/github.png" alt="github icon">
+        </a>
+        <a class="p-2" href="https://www.linkedin.com/in/grzegorz-bronka">
+            <img width="20" src="../images/linkedin.png" alt="github icon">
+        </a>
         <div class="row">
             <div class="col-12">
                 <p>Copyright &#169; 2023 Grzegorz Bronka. All rights reserved.</p>

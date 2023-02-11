@@ -1,10 +1,14 @@
 @charset "utf-8";
 
 :root {
-    --primary-bg-color: #06090f;
+    /*--primary-bg-color: #06090f; */
+    --primary-bg-color: #181a1b;
     --secondary-bg-color: #161b22;
-    --text-color: #e8e6e3;
+    /*--text-color: #e8e6e3; */
+    /*--text-color: #b5aea4; */
+    --text-color: #e7e7e7; 
     --accent-color: #d64c4c;
+    --link-color: #184dc8;
 }
 
 /* GENERAL STYLES*/
@@ -14,13 +18,11 @@
 }
 
 a {
-    color: var(--text-color);
-    text-decoration: underline;
+    color: var(--link-color);
 }
 
 a:hover {
-    color: #007bff;
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 html {
@@ -64,28 +66,15 @@ h2 {
 }
 
 footer {
+    background-color: var(--secondary-bg-color);
+    bottom: 0;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.5); /* same shadow as navbar but on top*/
     font-family: 'Roboto', sans-serif;
     font-size: 0.9em;
     line-height: 40px;
-    background-color: var(--secondary-bg-color);
     /* font-weight: 700; */
     position: absolute;
-    bottom: 0;
     width: 100%;
-}
-
-footer div a:link {
-    text-decoration: none;
-    color: white;
-    padding: 10px;
-}
-
-footer div a:visited {
-    color: white;
-}
-
-footer div a:hover {
-    color: var(--accent-color);
 }
 
 /* UTILITIES */
@@ -140,7 +129,7 @@ footer div a:hover {
     padding-top: 100px;
     display: block;
     position: absolute;
-    color: white;
+    color: var(--text-color);
     top: 0;
     bottom: 0;
     left: 0;
@@ -221,4 +210,14 @@ footer div a:hover {
 
 .bg-code {
     background-color: #282a36 !important;
+}
+
+/* button with post link */
+.button {
+    background-color: #952222;
+}
+
+.button:hover {
+    color: var(--text-color);
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
 }

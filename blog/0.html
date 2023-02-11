@@ -141,10 +141,10 @@
 <p>The source code found here isn’t the actual code I wrote.
 I’m running a Node.js server locally and using <code>wget</code> command to make a snapshot of the website.</p>
 <p>The command I use is:</p>
-<pre class="hljs bg-code text-white"><code>wget --mirror --convert-links --adjust-extension --page-requisites --no-parent -e robots=off http://localhost:3000
+<pre class="hljs bg-code"><code>wget --mirror --convert-links --adjust-extension --page-requisites --no-parent -e robots=off http://localhost:3000
 </code></pre>
 <p>Then I just copy the files with <code>rsync</code> excluding some of the files I don’t want to change:</p>
-<pre class="hljs bg-code text-white"><code>rsync -av --delete --exclude=.git --exclude=CNAME --exclude=robots.txt <span class="hljs-string">&quot;./localhost:3000/&quot;</span> <span class="hljs-string">&quot;./website
+<pre class="hljs bg-code"><code>rsync -av --delete --exclude=.git --exclude=CNAME --exclude=robots.txt <span class="hljs-string">&quot;./localhost:3000/&quot;</span> <span class="hljs-string">&quot;./website
 </span></code></pre>
 <p>A static site generated like that is published through GitHub pages.</p>
 <p>This has several advantages:</p>
@@ -155,7 +155,7 @@ I’m running a Node.js server locally and using <code>wget</code> command to ma
 <li>Don’t need to pay for VPS to host this site</li>
 </ul>
 <p>For example, the body of the gallery page looks like this in Node.js:</p>
-<pre class="hljs bg-code text-white"><code><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+<pre class="hljs bg-code"><code><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
     &lt;%- include(&#x27;../partials/header&#x27;) %&gt;
 
     <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;container main-container&quot;</span>&gt;</span>
@@ -183,8 +183,12 @@ I’m running a Node.js server locally and using <code>wget</code> command to ma
       </div>
     <footer class="text-center">
     <div class="container">
-        <a href="https://github.com/Neoskiddie"><img width="20" src="../images/github.png" alt="github icon"></a>
-        <a href="https://www.linkedin.com/in/grzegorz-bronka"><img width="20" src="../images/linkedin.png" alt="github icon"></a>
+        <a class="p-2" href="https://github.com/Neoskiddie">
+            <img width="20" src="../images/github.png" alt="github icon">
+        </a>
+        <a class="p-2" href="https://www.linkedin.com/in/grzegorz-bronka">
+            <img width="20" src="../images/linkedin.png" alt="github icon">
+        </a>
         <div class="row">
             <div class="col-12">
                 <p>Copyright &#169; 2023 Grzegorz Bronka. All rights reserved.</p>
