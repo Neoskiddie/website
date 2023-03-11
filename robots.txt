@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /$
 Allow: /blog/*
+Allow: /blog/
 Allow: /about
 Allow: /honours
 Disallow: /

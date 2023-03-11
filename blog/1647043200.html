@@ -119,7 +119,7 @@
 <p>This was my first Forensics CTF. Although I had one semester of forensics at Uni it’s not the topic I’m most familiar with. Thus, I thought participating in this CTF could improve my skills in this aspect.</p>
 <p>Quite unexpectedly for me, the challenge turned out to be Linux image forensics. I was expecting a Windows system image and even repeated some methodology for windows forensics, such as what to search for in Registry. However, I’m actually more familiar with Linux, so it wasn’t a big problem, just a surprise.</p>
 <h2>Setup</h2>
-<p>To analyse the image I used a mixture of tools. I was running Autopsy and Belkasoft Evidence Center X (supplied by organisers) on Windows. But I also copied some of the files to Kali virtual machine for deeper analysis. Some of the terminal tools used were <code>exiftool</code>, <code>steghide</code> and <code>hexedit</code>. This was actually first time I used <code>hexedit</code>. Previously I was using a combination of <code>vim</code> built in hexa edition or just <code>xxd</code> to see the content. But <code>hexedit</code> turned out to be more suitable for the task.</p>
+<p>To analyse the image I used a mixture of tools. I was running Autopsy and Belkasoft Evidence Center X (supplied by organisers) on Windows. But I also copied some of the files to Kali virtual machine for deeper analysis. Some of the terminal tools used were <code>exiftool</code>, <code>steghide</code> and <code>hexedit</code>. This was actually first time I used <code>hexedit</code>. Previously I was using a combination of <code>vim</code> built-in hexa edition or just <code>xxd</code> to see the content. But <code>hexedit</code> turned out to be more suitable for the task.</p>
 <h2>Challenges</h2>
 <h2>1 (100 points)</h2>
 <blockquote>
@@ -127,7 +127,7 @@
 Format: username1, username2, username 3:</p>
 </blockquote>
 <p>Answer: <code>ivan, stanley</code></p>
-<p>This could be found in either <code>/etc/passwd</code> or <code>/etc/shadow</code>. But both of this files have a lot of default users, so to make sure I didn’t miss any I’ve checked <code>/home</code> directory - it had two subdirectories named <code>ivan</code> and <code>stanley</code>.</p>
+<p>This could be found in either <code>/etc/passwd</code> or <code>/etc/shadow</code>. But both of these files have a lot of default users, so to make sure I didn’t miss any I’ve checked <code>/home</code> directory - it had two subdirectories named <code>ivan</code> and <code>stanley</code>.</p>
 <p><img src="../images/BlogPhotos/belkaHome.png" alt="Home directories"></p>
 <h2>2 (100 points)</h2>
 <blockquote>
@@ -140,8 +140,8 @@ Format: username1, username2, username 3:</p>
 <p>The files with partial addresses were quite easy to find in one of the user’s directories.</p>
 <p><img src="../images/BlogPhotos/belkaWallet1.png" alt="First BTC wallet">
 <img src="../images/BlogPhotos/belkaWallet2.png" alt="Second wallet"></p>
-<p>This was the last challenge I’ve solved.
-At first, I tried the incomplete address as the flag - it seemed to me that it was missing some characters just to make it invalid BTC address.</p>
+<p>This was the last challenge I solved.
+At first, I tried the incomplete address as the flag - it seemed to me that it was missing some characters just to make it an invalid BTC address.</p>
 <p>The funny thing here is that I’ve found a complete address for the more difficult task before I found this one.
 It was so simple and yet so difficult.</p>
 <p>For some reason, I thought all data needed for this CTF was only available within the image. But the solution for this task was actually the link from the previous task - the website was working and the wallet address could be found there.</p>
@@ -153,13 +153,13 @@ It was so simple and yet so difficult.</p>
 <p>Answer: <code>2021-05-12</code></p>
 <p>Firstly there is an email from Tux asking for “monthly sell db”.
 <img src="../images/BlogPhotos/tuxEmail.png" alt="Tux email"></p>
-<p>The email also mentioned an attachment with a password list. I’ve saved the it for later.</p>
+<p>The email also mentioned an attachment with a password list, which was useful later.</p>
 <p>The DB file itself was located in <code>/home/stanley/.db</code> in one of the subdirectories.
 Also, another interesting file “mycon.zip” was located there.</p>
 <p><img src="../images/BlogPhotos/db.png" alt="DB"></p>
-<p>Looking through other files in “Stanely” directory I found a very interesting cache - the VMware cache of all drag and drop files. This turned out to be almost all files used in the challenge. Seems like something that was overlooked during the making of the challenge.</p>
+<p>Looking through other files in “Stanely” directory I found a very interesting cache - the VMware cache of all drag-and-drop files. This turned out to be almost all files used in the challenge. Seems like something that was overlooked during the making of the challenge.</p>
 <p><img src="../images/BlogPhotos/vmwareCache.png" alt="Drag and drop cache"></p>
-<p>The database was encrypted. Usually for such tasksk I would use Hashcat, but I wanted to try Password Kit Forensic program that was provided by the ograniser.</p>
+<p>The database was encrypted. Usually, for such tasks I would use Hashcat, but I wanted to try the Password Kit Forensic program that was provided by the organiser.</p>
 <p>The password for the database was <code>vondutcemonaheem_gangsta78</code>
 It was found in the password list from the email.</p>
 <p><img src="../images/BlogPhotos/monthlyDB.png" alt="DB"></p>
