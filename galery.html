@@ -2,8 +2,7 @@
 <html lang="en">
 
 <head>
-    <!-- <link rel="stylesheet" href="photoswipe/dist/photoswipe.css"> -->
-    <link rel="stylesheet" href="https://unpkg.com/photoswipe@5.2.2/dist/photoswipe.css">
+    <link rel="stylesheet" href="css/photoswipe.min.css">
     <title>Grzegorz Bronka - galery
 </title>
 <meta charset="UTF-8" />
@@ -12,10 +11,10 @@
 <meta name="description" content="Grzegorz Bronka - personal website." />
 <meta name="author" content="Grzegorz Bronka">
 <meta name="keywords" content="grzegorz, greg, bronka, programmer, cyber, security, development" />
-<link type="text/css" href="css/googleFonts.css" rel="stylesheet">
 <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="css/mainPageStyle.css" />
-<link type="text/css" href="css/hamburgers.css" rel="stylesheet">
+<link type="text/css" href="css/googleFonts.min.css" rel="stylesheet">
+e<link rel="stylesheet" type="text/css" href="css/mainPageStyle.min.css" />
+<link type="text/css" href="css/hamburgers.min.css" rel="stylesheet">
 <!-- favicon stuff -->
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -59,11 +58,11 @@
 -->
 
         <script type="module">
-            import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe/dist/photoswipe-lightbox.esm.js';
+            import PhotoSwipeLightbox from '/js/photoswipe-lightbox.min.esm.js';
             const lightbox = new PhotoSwipeLightbox({
                 gallery: '#gallery',
                 children: 'a',
-                pswpModule: () => import('https://unpkg.com/photoswipe')
+                pswpModule: () => import('/js/photoswipe.min.esm.js')
             });
             lightbox.init();
         </script>
@@ -379,6 +378,8 @@
         </div>
     </div>
 </footer>
+<script defer src="js/jquery-3.6.4.min.js"></script>
+<script defer src="js/bootstrap.min.js"></script>
 <script defer src="js/main.min.js"></script>
 </body>
 
