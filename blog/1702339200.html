@@ -156,7 +156,7 @@ In my case it failed once, but then worked when I tried again.</p>
 <p>This worked and I was very happy. The only problem I had was that the KOReader was starting on top of Kindle default interface - sometimes it would overlap.
 To solve this I’ve used option KOReader provides which is <code>--framework_stop</code>.</p>
 <p>So whole script looks like this:</p>
-<pre class="hljs"><code>#!/bin/sh
+<pre class="hljs bg-code"><code><span class="hljs-meta">#!/bin/sh</span>
 /bin/sh /mnt/us/koreader/koreader.sh --framework_stop
 </code></pre>
 <p>Then in search bar running: <code>;log runme</code> stops the default Kindle GUI and starts KOReader.
