@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Grzegorz Bronka - post: About this website
+  <title>Grzegorz Bronka - post: Jailbreaking Paperwhite 5 (11th gen) 
 </title>
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -103,59 +103,66 @@ e<link rel="stylesheet" type="text/css" href="../css/mainPageStyle.min.css" />
       <div class="container main-container">
         <div class="text-center">
           <h2 class="main-title">
-            About this website
+            Jailbreaking Paperwhite 5 (11th gen) 
           </h2>
           <p class="text-center">
-            Sun Jan 29 2023
+            Tue Dec 12 2023
           </p>
           <hr />
         </div>
         <article class="markdown-body">
           <p>
-            About creating and publishing this website.
+            Jailbreaking / rooting my Paperwhite 5 ebook reader and installing KOReader
           </p>
           <hr />
-          <h2>About</h2>
-<p>The source code found here isn’t the actual code I wrote.
-I’m running a Node.js server locally and using <code>wget</code> command to make a snapshot of the website.</p>
-<p>The command I use is:</p>
-<pre class="hljs bg-code"><code>wget --mirror --convert-links --adjust-extension --page-requisites --no-parent -e robots=off http://localhost:3000
+          <p>This is just a quick summary of things I’ve found when rooting my paperwhite. More of a reminder for myself what steps to take.
+Obviously I havn’t created the jailbreak, just used the steps provided by others.</p>
+<p>The goal here was to run KOReader on Kindle so I can read EPUB format without conversion.</p>
+<p>I kept my paperwhite in airplane mode for quite a long time hoping somone will create a jailbreak.
+And after some time I saw this great project: <a href="https://github.com/notmarek/LanguageBreak">https://github.com/notmarek/LanguageBreak</a></p>
+<p>In my case the firmware version was exact match so 5.16.2.1.1.</p>
+<h2>notes</h2>
+<p>Just follow the tutorial on the github page:
+<a href="https://github.com/notmarek/LanguageBreak">https://github.com/notmarek/LanguageBreak</a></p>
+<p>I have one extra note on that tutorial (steps 10-12):
+When it says you must be quick to plug in the cables - YOU MUST BE REAL QUICK, like split second.
+Also it seems you only have few seconds to copy the files AND eject Kindle. Otherwise it will reboot before you finish.
+Just have all the files ready to by coppied and be prepared to click “override” or whatever your OS calls that. Then eject Kindle to make sure it’s written.</p>
+<p>I messed up this step and it looked like jailbreak was successful but I coudn’t run anything.</p>
+<h2>In case you’ve messed up like I did</h2>
+<p>I was able to recover from failed rooting by installing clean image again.</p>
+<p>Firmware:
+<code>wget https://s3.amazonaws.com/firmwaredownloads/update_kindle_all_new_paperwhite_11th_5.16.2.1.1.bin</code></p>
+<p>Put in in the root folder of kindle to update. Then just go to settings and update. All in Airplain mode.
+In my case it failed once, but then worked when I tried again.</p>
+<h2>KOReader</h2>
+<p>I’ve used the version <a href="https://github.com/koreader/koreader/releases/download/v2023.10/koreader-kindlepw2-v2023.10.zip">koreader-kindlepw2-v2023.10.zip</a> at the time. Things might have changed since then.</p>
+<p>The <a href="https://github.com/koreader/koreader/wiki/Installation-on-Kindle-devices">official documentation</a> suggests using KUAL but for some reason it doesn’t work for me. I’ve tried multiple times but it seem to just crash.</p>
+<p>What worked was suggestion from this thread from user Dexmaster:
+<a href="https://www.mobileread.com/forums/showthread.php?p=4376655">https://www.mobileread.com/forums/showthread.php?p=4376655</a></p>
+<blockquote>
+<p><em>…</em>
+<em>First install: LanguageBreak hotfix just by putting in in root dir related to your language of choice (and running Update from settings)</em></p>
+<p><em>Create <code>mrpackages</code> and <code>extensions</code> folders on kindle.</em></p>
+<p><em>Download <code>K5 JailBreak Hotfix</code> bin and put in <code>mrpackages</code> folder, download <code>MR Package Installer</code> and unpack it in <code>extensions</code> folder as usual (from <a href="https://www.mobileread.com/forums/showthread.php?t=225030">https://www.mobileread.com/forums/showthread.php?t=225030</a>)</em></p>
+<p><em>Now after this you can run (by typing in search) <code>;log mrpi</code> to install hotfix too.</em></p>
+<p><em>And after it reboots you can download and unpack koreader folder onto Kindle.</em></p>
+<p><em>Then create <a href="http://RUNME.sh">RUNME.sh</a> with content:</em></p>
+<pre class="hljs bg-code"><code><span class="hljs-meta">#!/bin/sh</span>
+/bin/sh /mnt/us/koreader/koreader.sh
 </code></pre>
-<p>Then I just copy the files with <code>rsync</code> excluding some of the files I don’t want to change:</p>
-<pre class="hljs bg-code"><code>rsync -av --delete --exclude=.git --exclude=CNAME --exclude=robots.txt <span class="hljs-string">&quot;./localhost:3000/&quot;</span> <span class="hljs-string">&quot;./website&quot;</span>
+<p><em>Running (typing in serch) <code>;log runme</code> will start Koreader, so Jailbreak works but for some reason it’s broken enough so KUAL doesn’t.</em></p>
+</blockquote>
+<p>This worked and I was very happy. The only problem I had was that the KOReader was starting on top of Kindle default interface - sometimes it would overlap.
+To solve this I’ve used option KOReader provides which is <code>--framework_stop</code>.</p>
+<p>So whole script looks like this:</p>
+<pre class="hljs"><code>#!/bin/sh
+/bin/sh /mnt/us/koreader/koreader.sh --framework_stop
 </code></pre>
-<p>A static site generated like that is published through GitHub pages.</p>
-<p>This has several advantages:</p>
-<ul>
-<li>Faster loading - the site is already generated as static HTML files</li>
-<li>Vulnerabilities in Node.js or other packages I use don’t affect this site</li>
-<li>I can see all the files that get published, no way to leak the source code</li>
-<li>Don’t need to pay for VPS to host this site</li>
-</ul>
-<p>For example, the body of the gallery page looks like this in Node.js:</p>
-<pre class="hljs bg-code"><code><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
-    &lt;%- include(&#x27;../partials/header&#x27;) %&gt;
-
-    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;container main-container&quot;</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;gallery&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;gallery&quot;</span>&gt;</span>
-            &lt;% for(var i=1; i &lt; files.length; i++) {%&gt;
-                &lt;% let image = &quot;images/privatePhotos/small/&quot; + files[i][&quot;image&quot;] %&gt;
-                &lt;% let thumbnail = &quot;images/privatePhotos/thumbnails/&quot; + thumbnails[i] %&gt;
-                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mb-3 pics animation all 2&quot;</span>&gt;</span>
-                    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;&lt;%= image %&gt;&quot;</span>
-                        <span class="hljs-attr">data-pswp-width</span>=<span class="hljs-string">&quot;&lt;%= files[i][&quot;</span><span class="hljs-attr">width</span>&quot;] %&gt;</span>&quot; 
-                        data-pswp-height=&quot;&lt;%= files[i][&quot;height&quot;] %&gt;&quot;&gt;
-                        <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;img-fluid&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;&lt;%= thumbnail %&gt;&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> /&gt;</span>
-                    <span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-            &lt;% } %&gt;
-        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-
-    &lt;%- include(&#x27;../partials/footer&#x27;) %&gt;
-<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
-</code></pre>
-<p>which results in <a href="https://github.com/Neoskiddie/website/blob/main/galery.html">this static file</a></p>
+<p>Then in search bar running: <code>;log runme</code> stops the default Kindle GUI and starts KOReader.
+The other thing is that run this way KOReader shows the book covers so everything works flawlessly as it was native.</p>
+<p>Lastly, exiting KOReader in that state simply reboots Kindle. You should do that if you are moving files over USB.</p>
+<p><img src="../images/BlogPhotos/kindle2.jpeg" alt="KOReader on pw5"></p>
 
         </article>
       </div>
